@@ -1,4 +1,4 @@
-import { Icons } from '~/components/icon'
+import { Icons } from '@/components/icon'
 
 export type NavbarItem = {
   title: string

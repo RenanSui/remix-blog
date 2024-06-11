@@ -1,4 +1,4 @@
-import { Navbar } from '~/types'
+import { Navbar } from '@/types'
 
 const navbar: Navbar = {
   items: [
