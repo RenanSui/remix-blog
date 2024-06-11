@@ -1,6 +1,6 @@
-import { Navbar } from '@/types'
+import { Sidebar } from '@/types'
 
-const navbar: Navbar = {
+const sidebar: Sidebar = {
   items: [
     {
       title: 'Home',
@@ -10,27 +10,28 @@ const navbar: Navbar = {
     },
     {
       title: 'Search',
-      href: '/post/search',
-      icon: 'home',
-      disabled: false,
-    },
-    {
-      title: 'Profile',
-      href: '/profile',
-      icon: 'home',
-      disabled: false,
-    },
-    {
-      title: 'Settings',
-      href: '/dashboard/settings',
+      href: '/',
       icon: 'home',
       disabled: false,
     },
   ],
 }
 
-const dashboard: Navbar = {
-  items: [],
+const dashboard: Sidebar = {
+  items: [
+    {
+      title: 'Profile',
+      href: '/',
+      icon: 'home',
+      disabled: false,
+    },
+    {
+      title: 'Settings',
+      href: '/',
+      icon: 'home',
+      disabled: false,
+    },
+  ],
 }
 
 export const siteConfig = {
@@ -40,6 +41,6 @@ export const siteConfig = {
   // links,
   // unsplash: { auth },
   // oauthProviders,
-  sidebarNav: [...navbar.items],
+  sidebarNav: [...sidebar.items],
   dashboardNav: [...dashboard.items],
 }
