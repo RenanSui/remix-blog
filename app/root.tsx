@@ -6,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
+import { SiteSidebar } from './components/layouts/site-sidebar'
 import stylesheet from './tailwind.css?url'
 
 export const links: LinksFunction = () => [
@@ -14,7 +15,7 @@ export const links: LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning={true} className="dark">
+    <html lang="en" className="dark">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,7 +23,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <div className="flex">
+          <SiteSidebar user={{ name: 'Renan Sui' }} />
+          {children}
+        </div>
         <ScrollRestoration />
         <Scripts />
       </body>
