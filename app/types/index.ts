@@ -1,12 +1,12 @@
 import { Icons } from '@/components/icon'
 
-export type NavbarItem = {
+export type SidebarNavItem = {
   title: string
   href: string
   icon?: keyof typeof Icons
   disabled: boolean
 }
 
-export type Navbar = {
-  items: NavbarItem[]
+export type Sidebar = {
+  items: SidebarNavItem[]
 }
