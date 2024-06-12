@@ -10,3 +10,11 @@ export type SidebarNavItem = {
 export type Sidebar = {
   items: SidebarNavItem[]
 }
+
+export type Post = {
+  id: string;
+  body: string;
+  authorId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
