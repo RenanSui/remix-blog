@@ -1,4 +1,4 @@
-import { Icons } from '@/components/icon'
+import type { Icons } from '@/components/icon'
 
 export type SidebarNavItem = {
   title: string

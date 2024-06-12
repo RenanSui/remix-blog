@@ -1,4 +1,4 @@
-import { Sidebar } from '@/types'
+import type { Sidebar } from '@/types'
 
 const sidebar: Sidebar = {
   items: [
@@ -12,7 +12,7 @@ const sidebar: Sidebar = {
       title: 'Search',
       href: '/',
       icon: 'home',
-      disabled: false,
+      disabled: true,
     },
   ],
 }
@@ -23,13 +23,13 @@ const dashboard: Sidebar = {
       title: 'Profile',
       href: '/',
       icon: 'home',
-      disabled: false,
+      disabled: true,
     },
     {
       title: 'Settings',
       href: '/',
       icon: 'home',
-      disabled: false,
+      disabled: true,
     },
   ],
 }
