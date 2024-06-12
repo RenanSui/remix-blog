@@ -10,7 +10,7 @@ const sidebar: Sidebar = {
     },
     {
       title: 'Search',
-      href: '/',
+      href: '/search',
       icon: 'home',
       disabled: true,
     },
@@ -21,13 +21,13 @@ const dashboard: Sidebar = {
   items: [
     {
       title: 'Profile',
-      href: '/',
+      href: '/profile',
       icon: 'home',
       disabled: true,
     },
     {
       title: 'Settings',
-      href: '/',
+      href: '/settings',
       icon: 'home',
       disabled: true,
     },
