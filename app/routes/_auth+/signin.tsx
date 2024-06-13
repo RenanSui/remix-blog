@@ -12,7 +12,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
-  return [{ title: "Blog - Sign in" }];
+  return [{ title: "Blog - Sign in", description: "Sign in to your account" }];
 };
 
 export default function Login() {
