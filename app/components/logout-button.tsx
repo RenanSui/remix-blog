@@ -3,6 +3,7 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useMounted } from "@/hooks/use-mounted";
+import { auth } from "@/lib/actions/auth";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "@remix-run/react";
 
@@ -25,7 +26,10 @@ export function LogOutButtons() {
         <Button
           size="sm"
           className="w-full"
-          // onClick={() => signOut({ callbackUrl: '/' })}
+          onClick={() => {
+            auth.signOut()
+            navigate('/')
+          }}
         >
           Log out
           <span className="sr-only">Log out</span>
