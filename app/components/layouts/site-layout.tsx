@@ -1,5 +1,5 @@
 import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
+import { cn, serializeValue } from "@/lib/utils";
 import * as React from "react";
 import {
   ResizableHandle,
@@ -22,7 +22,7 @@ interface SiteLayoutProps {
 
 export default function SiteLayout({
   user,
-  defaultLayout = [265, 440, 655],
+  defaultLayout = [20, 80],
   defaultCollapsed = false,
   navCollapsedSize,
   page,
@@ -33,7 +33,7 @@ export default function SiteLayout({
     <ResizablePanelGroup
       direction="horizontal"
       onLayout={(sizes: number[]) => {
-        document.cookie = `react-resizable-panels:layout=${JSON.stringify(
+        document.cookie = `react-resizable-panels:layout=${serializeValue(
           sizes
         )}`;
       }}
@@ -47,13 +47,13 @@ export default function SiteLayout({
         maxSize={20}
         onCollapse={() => {
           setIsCollapsed(true);
-          document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+          document.cookie = `react-resizable-panels:collapsed=${serializeValue(
             true
           )}`;
         }}
         onExpand={() => {
           setIsCollapsed(false);
-          document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+          document.cookie = `react-resizable-panels:collapsed=${serializeValue(
             false
           )}`;
         }}
