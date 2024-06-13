@@ -1,20 +1,36 @@
+import type { HTTPResponse } from "@/types";
 import type { z } from "zod";
+import type { AuthStatusCode } from "../errors/handle-auth-error";
 import type { authSchema } from "../validations/auth";
 
 type Inputs = z.infer<typeof authSchema>;
 
+const postFetchConfig = {
+  method: "POST",
+  credentials: "include",
+  headers: { "Content-Type": "application/json" },
+} satisfies RequestInit;
+
 export const auth = {
-  signIn: async (formData: Inputs) => null,
+  signIn: async (formData: Inputs) => {
+    const response = await fetch("http://localhost:8000/api/auth/login", {
+      ...postFetchConfig,
+      body: JSON.stringify({ ...formData }),
+    });
+    return (await response.json()) as HTTPResponse<void, AuthStatusCode>;
+  },
 
   signUp: async (formData: Inputs) => {
-    // console.log(document.cookie)
-    // document.cookie = `accessToken=${'some_access_token_test'}`
-    const response = await fetch('https://jsonplaceholder.typicode.com/todos')
-    const data = await response.json()
-    return data
+    const response = await fetch("http://localhost:8000/api/auth/register", {
+      ...postFetchConfig,
+      body: JSON.stringify({ ...formData }),
+    });
+    return (await response.json()) as HTTPResponse<void, AuthStatusCode>;
   },
 
   signOut: async () => {
-    document.cookie = `accessToken=; Max-Age=0; path=/`
-  }
+    await fetch("http://localhost:8000/api/auth/logout", {
+      credentials: "include",
+    });
+  },
 };
