@@ -10,8 +10,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { auth } from "@/lib/actions/auth";
+import { AuthErrorHandler } from "@/lib/errors/handle-auth-error";
+import { getParsedErrors } from "@/lib/errors/utils";
 import { authSchema } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "@remix-run/react";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -23,9 +27,8 @@ type Inputs = z.infer<typeof authSchema>;
 
 export default function SignInForm() {
   const [loading, setLoading] = React.useState(false);
-  // const router = useRouter();
+  const navigate = useNavigate();
 
-  // react-hook-form
   const form = useForm<Inputs>({
     resolver: zodResolver(authSchema),
     defaultValues: {
@@ -35,20 +38,18 @@ export default function SignInForm() {
   });
 
   async function onSubmit(data: Inputs) {
-    console.log(data);
     setLoading(true);
     try {
-      // const { error, status } = await signIn({ ...data })
-      // if (error && error?.message) {
-      //   throw new Error(error?.message)
-      // }
-      // AuthErrorHandler(status)
-      // router.push(`${window.location.origin}/`)
-      toast.error("Try...");
+      const parsed = authSchema.safeParse(data);
+      if (!parsed.success) throw new Error(getParsedErrors(parsed));
+
+      const { status } = await auth.signIn({ ...data });
+      AuthErrorHandler(status);
+      navigate(`/`);
     } catch (err) {
-      toast.error(err as string);
+      const error = err as { message: string };
+      toast.error(error.message);
     } finally {
-      toast.error("Finally...");
       setLoading(false);
     }
   }
