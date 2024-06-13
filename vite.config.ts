@@ -13,16 +13,17 @@ export default defineConfig({
       },
       ignoredRouteFiles: ["**/*"],
       routes: async (defineRoutes) => {
-      return flatRoutes("routes", defineRoutes, {
-        ignoredRouteFiles: [
-          ".*",
-          "**/*.css",
-          "**/*.test.{js,jsx,ts,tsx}",
-          "**/__*.*",
-        ],
-      })
+        return flatRoutes("routes", defineRoutes, {
+          ignoredRouteFiles: [
+            ".*",
+            "**/*.css",
+            "**/*.test.{js,jsx,ts,tsx}",
+            "**/__*.*",
+          ],
+        });
       },
     }),
     tsconfigPaths(),
   ],
+  server: { port: 3000 },
 });
