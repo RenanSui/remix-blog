@@ -16,16 +16,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { auth } from "@/lib/actions/auth";
+import { AuthErrorHandler } from "@/lib/errors/handle-auth-error";
+import { getParsedErrors } from "@/lib/errors/utils";
 import { authSchema } from "@/lib/validations/auth";
+import { useNavigate } from "@remix-run/react";
+import { toast } from "sonner";
 import { Icons } from "./icon";
 
 type Inputs = z.infer<typeof authSchema>;
 
 export function SignUpForm() {
   const [loading, setLoading] = React.useState(false);
-  // const router = useRouter();
+  const navigate = useNavigate();
 
-  // react-hook-form
   const form = useForm<Inputs>({
     resolver: zodResolver(authSchema),
     defaultValues: {
@@ -37,20 +41,15 @@ export function SignUpForm() {
   async function onSubmit(data: Inputs) {
     setLoading(true);
     try {
-      // await signUp.create({
-      //   emailAddress: data.email,
-      //   password: data.password,
-      // })
-      // // Send email verification code
-      // await signUp.prepareEmailAddressVerification({
-      //   strategy: "email_code",
-      // })
-      // router.push("/signup/verify-email")
-      // toast.message("Check your email", {
-      //   description: "We sent you a 6-digit verification code.",
-      // })
+      const parsed = authSchema.safeParse(data);
+      if (!parsed.success) throw new Error(getParsedErrors(parsed));
+
+      const { status } = await auth.signUp(data);
+      AuthErrorHandler(status);
+      navigate(`/`);
     } catch (err) {
-      // showErrorToast(err)
+      const error = err as { message: string };
+      toast.error(error.message);
     } finally {
       setLoading(false);
     }
