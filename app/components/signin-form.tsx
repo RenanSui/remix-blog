@@ -14,6 +14,7 @@ import { authSchema } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import type { z } from "zod";
 import { Icons } from "./icon";
 import { PasswordInput } from "./password-input";
@@ -43,9 +44,11 @@ export default function SignInForm() {
       // }
       // AuthErrorHandler(status)
       // router.push(`${window.location.origin}/`)
+      toast.error("Try...");
     } catch (err) {
-      // toast.error(err as string)
+      toast.error(err as string);
     } finally {
+      toast.error("Finally...");
       setLoading(false);
     }
   }
@@ -60,11 +63,7 @@ export default function SignInForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input
-                  type="text"
-                  placeholder="email@gmail.com"
-                  {...field}
-                />
+                <Input type="text" placeholder="email@gmail.com" {...field} />
               </FormControl>
               <FormMessage className="dark:text-red-500" />
             </FormItem>
