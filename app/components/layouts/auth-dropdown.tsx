@@ -7,9 +7,13 @@ import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { ThemeToggler } from "./theme-toggler";
 
 type AuthDropdownProps = ButtonProps & {
   profile: Profile | null;
@@ -66,7 +70,27 @@ export function AuthDropdown({
           </span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-60" align="end" forceMount>
+      <DropdownMenuContent className="w-60 ml-2" align="end" forceMount>
+        <DropdownMenuLabel className="font-normal">
+          <div className="flex flex-col space-y-1">
+            <p className="text-sm font-medium leading-none">{profile.name}</p>
+            <p className="text-xs leading-none text-neutral-500">
+              {profile.username}
+            </p>
+          </div>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <div className="flex items-center justify-between px-2 py-1.5">
+            <div className="flex items-center text-sm">
+              {/* eslint-disable-next-line react/jsx-pascal-case */}
+              <Icons.sun className="mr-2 size-4" aria-hidden="true" />
+              Theme
+            </div>
+            <ThemeToggler combobox />
+          </div>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link to="/signout">
             {/* eslint-disable-next-line react/jsx-pascal-case */}
