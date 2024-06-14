@@ -52,13 +52,13 @@ export function SidebarNav({
               className={({ isActive, isPending }) => {
                 return cn(
                   buttonVariants({ variant: "ghost", size: "sm" }),
-                  "w-full",
+                  "w-full px-4",
                   isActive ? "bg-accent text-accent-foreground" : "",
                   item.disabled && "pointer-events-none opacity-60"
                 );
               }}
             >
-              <Icon className="mr-2 h-4 w-4" />
+              <Icon className="mr-2 h-4 w-4 shrink-0" />
               <span className="mr-auto">{item.title}</span>
             </NavLink>
           );
