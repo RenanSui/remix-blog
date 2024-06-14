@@ -12,6 +12,21 @@ export type Sidebar = {
   items: SidebarNavItem[];
 };
 
+export type User = {
+  id: string;
+  email: string;
+  password: string;
+  role: 'USER' | 'ADMIN' | 'OWNER'
+}
+
+export type Profile = {
+  id?: string;
+  name: string;
+  username: string;
+  bio?: string;
+  image?: string;
+}
+
 export type Post = {
   id: string;
   body: string;
