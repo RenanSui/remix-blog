@@ -5,13 +5,19 @@ export const dashboard: Sidebar = {
     {
       title: "Profile",
       href: "/profile",
-      icon: "home",
+      icon: 'user',
       disabled: true,
+    },
+    {
+      title: 'Social',
+      href: '/social',
+      icon: 'social',
+      disabled: false,
     },
     {
       title: "Settings",
       href: "/settings",
-      icon: "home",
+      icon: "gear",
       disabled: true,
     },
   ],
