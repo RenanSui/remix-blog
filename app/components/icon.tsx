@@ -1,9 +1,17 @@
-import { ChevronLeftIcon } from 'lucide-react'
+import {
+  ChevronLeftIcon,
+  ChevronsUpDown,
+  LogInIcon,
+  Search,
+} from "lucide-react";
 
-export type IconProps = React.HTMLAttributes<SVGElement>
+export type IconProps = React.HTMLAttributes<SVGElement>;
 
 export const Icons = {
   chevronLeft: ChevronLeftIcon,
+  chevronsUpDown: ChevronsUpDown,
+  search: Search,
+  logInIcon: LogInIcon,
   home: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -52,4 +60,4 @@ export const Icons = {
       <path d="M21 12a9 9 0 1 1-6.219-8.56" />
     </svg>
   ),
-}
+};
