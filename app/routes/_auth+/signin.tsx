@@ -1,5 +1,5 @@
-import { Shell } from "@/components/shell";
-import SignInForm from "@/components/signin-form";
+import { Shell } from '@/components/shell'
+import SignInForm from '@/components/signin-form'
 import {
   Card,
   CardContent,
@@ -7,13 +7,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import type { MetaFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+} from '@/components/ui/card'
+import type { MetaFunction } from '@remix-run/node'
+import { Link } from '@remix-run/react'
 
 export const meta: MetaFunction = () => {
-  return [{ title: "Blog - Sign in", description: "Sign in to your account" }];
-};
+  return [{ title: 'Blog - Sign in', description: 'Sign in to your account' }]
+}
 
 export default function Login() {
   return (
@@ -55,5 +55,5 @@ export default function Login() {
         </CardFooter>
       </Card>
     </Shell>
-  );
+  )
 }

@@ -1,13 +1,15 @@
-import { LogOutButtons } from "@/components/logout-button";
-import { PageHeader, PageHeaderHeading, PageHeaderDescription } from "@/components/page-header";
-import { Shell } from "@/components/shell";
-import type { MetaFunction } from "@remix-run/node";
+import { LogOutButtons } from '@/components/logout-button'
+import {
+  PageHeader,
+  PageHeaderHeading,
+  PageHeaderDescription,
+} from '@/components/page-header'
+import { Shell } from '@/components/shell'
+import type { MetaFunction } from '@remix-run/node'
 
 export const meta: MetaFunction = () => {
-  return [
-    { title: "Blog - Sign out", description: "Sign out of your account" },
-  ];
-};
+  return [{ title: 'Blog - Sign out', description: 'Sign out of your account' }]
+}
 
 export default function SignOutPage() {
   return (
@@ -20,5 +22,5 @@ export default function SignOutPage() {
       </PageHeader>
       <LogOutButtons />
     </Shell>
-  );
+  )
 }

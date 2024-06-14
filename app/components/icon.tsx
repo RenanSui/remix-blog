@@ -1,4 +1,4 @@
-import { ExitIcon, GearIcon, HomeIcon, SunIcon } from "@radix-ui/react-icons";
+import { ExitIcon, GearIcon, HomeIcon, SunIcon } from '@radix-ui/react-icons'
 import {
   ChevronLeftIcon,
   ChevronsUpDown,
@@ -6,9 +6,9 @@ import {
   LogInIcon,
   Search,
   UsersRoundIcon,
-} from "lucide-react";
+} from 'lucide-react'
 
-export type IconProps = React.HTMLAttributes<SVGElement>;
+export type IconProps = React.HTMLAttributes<SVGElement>
 
 export const Icons = {
   // lucid-react
@@ -18,7 +18,7 @@ export const Icons = {
   chevronsUpDown: ChevronsUpDown,
   social: UsersRoundIcon,
   user: CircleUserRoundIcon,
-  
+
   // radix-ui
   home: HomeIcon,
   sun: SunIcon,
@@ -56,4 +56,4 @@ export const Icons = {
       <path d="M21 12a9 9 0 1 1-6.219-8.56" />
     </svg>
   ),
-};
+}

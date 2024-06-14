@@ -1,5 +1,5 @@
-import { Shell } from "@/components/shell";
-import { SignUpForm } from "@/components/signup-form";
+import { Shell } from '@/components/shell'
+import { SignUpForm } from '@/components/signup-form'
 import {
   Card,
   CardContent,
@@ -7,13 +7,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import type { MetaFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+} from '@/components/ui/card'
+import type { MetaFunction } from '@remix-run/node'
+import { Link } from '@remix-run/react'
 
 export const meta: MetaFunction = () => {
-  return [{ title: "Blog - Sign up", description: "Sign up for an account" }];
-};
+  return [{ title: 'Blog - Sign up', description: 'Sign up for an account' }]
+}
 
 export default function SignUpPage() {
   return (
@@ -41,7 +41,7 @@ export default function SignUpPage() {
         </CardContent>
         <CardFooter>
           <div className="text-sm text-muted-foreground">
-            Already have an account?{" "}
+            Already have an account?{' '}
             <Link
               aria-label="Sign in"
               to="/signin"
@@ -53,5 +53,5 @@ export default function SignUpPage() {
         </CardFooter>
       </Card>
     </Shell>
-  );
+  )
 }

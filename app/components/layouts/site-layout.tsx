@@ -1,25 +1,25 @@
-import { siteConfig } from "@/config/site";
-import { cn, serializeValue } from "@/lib/utils";
-import type { Profile } from "@/types";
-import * as React from "react";
+import { siteConfig } from '@/config/site'
+import { cn, serializeValue } from '@/lib/utils'
+import type { Profile } from '@/types'
+import * as React from 'react'
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from "../ui/resizable";
-import { ScrollArea } from "../ui/scroll-area";
-import { Separator } from "../ui/separator";
-import { TooltipProvider } from "../ui/tooltip";
-import { AuthDropdown } from "./auth-dropdown";
-import { SidebarNav } from "./sidebar-nav";
+} from '../ui/resizable'
+import { ScrollArea } from '../ui/scroll-area'
+import { Separator } from '../ui/separator'
+import { TooltipProvider } from '../ui/tooltip'
+import { AuthDropdown } from './auth-dropdown'
+import { SidebarNav } from './sidebar-nav'
 
 interface SiteLayoutProps {
-  profile: Profile | null;
+  profile: Profile | null
   // mails: Mail[]
-  defaultLayout: number[] | undefined;
-  defaultCollapsed?: boolean;
-  navCollapsedSize: number;
-  page: React.ReactNode;
+  defaultLayout: number[] | undefined
+  defaultCollapsed?: boolean
+  navCollapsedSize: number
+  page: React.ReactNode
 }
 
 export default function SiteLayout({
@@ -29,7 +29,7 @@ export default function SiteLayout({
   navCollapsedSize,
   page,
 }: SiteLayoutProps) {
-  const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
+  const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed)
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -37,8 +37,8 @@ export default function SiteLayout({
         direction="horizontal"
         onLayout={(sizes: number[]) => {
           document.cookie = `react-resizable-panels:layout=${serializeValue(
-            sizes
-          )}`;
+            sizes,
+          )}`
         }}
         className="h-full items-stretch"
       >
@@ -49,26 +49,26 @@ export default function SiteLayout({
           minSize={15}
           maxSize={20}
           onCollapse={() => {
-            setIsCollapsed(true);
+            setIsCollapsed(true)
             document.cookie = `react-resizable-panels:collapsed=${serializeValue(
-              true
-            )}`;
+              true,
+            )}`
           }}
           onExpand={() => {
-            setIsCollapsed(false);
+            setIsCollapsed(false)
             document.cookie = `react-resizable-panels:collapsed=${serializeValue(
-              false
-            )}`;
+              false,
+            )}`
           }}
           className={cn(
             isCollapsed &&
-              "min-w-[50px] transition-all duration-300 ease-in-out"
+              'min-w-[50px] transition-all duration-300 ease-in-out',
           )}
         >
           <div
             className={cn(
-              "flex h-[52px] items-center justify-center",
-              isCollapsed ? "h-[52px]" : "px-2"
+              'flex h-[52px] items-center justify-center',
+              isCollapsed ? 'h-[52px]' : 'px-2',
             )}
           >
             <AuthDropdown profile={profile} isCollapsed={isCollapsed} />
@@ -96,5 +96,5 @@ export default function SiteLayout({
         </ResizablePanel>
       </ResizablePanelGroup>
     </TooltipProvider>
-  );
+  )
 }

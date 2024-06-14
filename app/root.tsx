@@ -1,18 +1,18 @@
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction } from '@remix-run/node'
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "@remix-run/react";
-import { ThemeProvider } from "next-themes";
-import stylesheet from "./tailwind.css?url";
-import { Toaster } from "sonner";
+} from '@remix-run/react'
+import { ThemeProvider } from 'next-themes'
+import stylesheet from './tailwind.css?url'
+import { Toaster } from 'sonner'
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesheet },
-];
+  { rel: 'stylesheet', href: stylesheet },
+]
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -30,9 +30,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
-  );
+  )
 }
 
 export default function App() {
-  return <Outlet />;
+  return <Outlet />
 }

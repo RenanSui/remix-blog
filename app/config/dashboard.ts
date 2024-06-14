@@ -1,10 +1,10 @@
-import type { Sidebar } from "@/types";
+import type { Sidebar } from '@/types'
 
 export const dashboard: Sidebar = {
   items: [
     {
-      title: "Profile",
-      href: "/profile",
+      title: 'Profile',
+      href: '/profile',
       icon: 'user',
       disabled: false,
     },
@@ -15,10 +15,10 @@ export const dashboard: Sidebar = {
       disabled: false,
     },
     {
-      title: "Settings",
-      href: "/settings",
-      icon: "gear",
+      title: 'Settings',
+      href: '/settings',
+      icon: 'gear',
       disabled: true,
     },
   ],
-};
+}

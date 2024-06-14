@@ -1,15 +1,15 @@
-"use client";
+'use client'
 
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useMounted } from "@/hooks/use-mounted";
-import { auth } from "@/lib/actions/auth";
-import { cn } from "@/lib/utils";
-import { useNavigate } from "@remix-run/react";
+import { Button, buttonVariants } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
+import { useMounted } from '@/hooks/use-mounted'
+import { auth } from '@/lib/actions/auth'
+import { cn } from '@/lib/utils'
+import { useNavigate } from '@remix-run/react'
 
 export function LogOutButtons() {
-  const navigate = useNavigate();
-  const mounted = useMounted();
+  const navigate = useNavigate()
+  const mounted = useMounted()
 
   return (
     <div className="flex w-full flex-col-reverse items-center gap-2 sm:flex-row">
@@ -37,13 +37,13 @@ export function LogOutButtons() {
       ) : (
         <Skeleton
           className={cn(
-            buttonVariants({ size: "sm" }),
-            "w-full bg-muted text-muted-foreground"
+            buttonVariants({ size: 'sm' }),
+            'w-full bg-muted text-muted-foreground',
           )}
         >
           Log out
         </Skeleton>
       )}
     </div>
-  );
+  )
 }

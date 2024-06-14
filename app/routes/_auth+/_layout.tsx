@@ -1,9 +1,8 @@
-import { Icons } from "@/components/icon";
-import { siteConfig } from "@/config/site";
-import { Link, Outlet } from "@remix-run/react";
-import * as React from "react";
+import { Icons } from '@/components/icon'
+import { siteConfig } from '@/config/site'
+import { Link, Outlet } from '@remix-run/react'
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout() {
   return (
     <div className="relative grid min-h-screen grid-cols-1 overflow-hidden lg:grid-cols-2">
       <Link
@@ -26,14 +25,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background to-black/80 lg:to-black/40" />
         <div className="absolute bottom-4 right-4 z-20 line-clamp-1 rounded-md bg-muted px-3 py-1.5 text-sm text-muted-foreground">
-          Photo by{" "}
+          Photo by{' '}
           <a
             href={siteConfig.unsplash.auth.authorUrl}
-           className="underline transition-colors hover:text-foreground"
+            className="underline transition-colors hover:text-foreground"
           >
-            {siteConfig.unsplash.auth.author}{" "}
+            {siteConfig.unsplash.auth.author}{' '}
           </a>
-          {" on "}
+          {' on '}
           <a
             href={siteConfig.unsplash.auth.imagePageUrl}
             className="underline transition-colors hover:text-foreground"
@@ -43,5 +42,5 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </div>
     </div>
-  );
+  )
 }

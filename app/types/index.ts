@@ -1,46 +1,46 @@
-import type { Icons } from "@/components/icon";
+import type { Icons } from '@/components/icon'
 import type { ReasonPhrases } from 'http-status-codes'
 
 export type SidebarNavItem = {
-  title: string;
-  href: string;
-  icon?: keyof typeof Icons;
-  disabled: boolean;
-};
+  title: string
+  href: string
+  icon?: keyof typeof Icons
+  disabled: boolean
+}
 
 export type Sidebar = {
-  items: SidebarNavItem[];
-};
+  items: SidebarNavItem[]
+}
 
 export type User = {
-  id: string;
-  email: string;
-  password: string;
+  id: string
+  email: string
+  password: string
   role: 'USER' | 'ADMIN' | 'OWNER'
 }
 
 export type Profile = {
-  id?: string;
-  name: string;
-  username: string;
-  bio?: string;
-  image?: string;
+  id?: string
+  name: string
+  username: string
+  bio?: string
+  image?: string
 }
 
 export type Post = {
-  id: string;
-  body: string;
-  authorId: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
+  id: string
+  body: string
+  authorId: string
+  createdAt: Date
+  updatedAt: Date
+}
 
-export type ReasonPhrase = `${ReasonPhrases}`;
+export type ReasonPhrase = `${ReasonPhrases}`
 
 export type HTTPResponse<T = void, B = void> = {
-  data: T | null;
-  message: ReasonPhrase;
-  status: B;
-};
+  data: T | null
+  message: ReasonPhrase
+  status: B
+}
 
 export type Auth = { accessToken: string }
