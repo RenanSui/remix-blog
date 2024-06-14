@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import type { Profile } from "@/types";
-import { ExitIcon } from "@radix-ui/react-icons";
 import { Link } from "@remix-run/react";
 import { Icons } from "../icon";
 import type { ButtonProps } from "../ui/button";
@@ -70,7 +69,8 @@ export function AuthDropdown({
       <DropdownMenuContent className="w-60" align="end" forceMount>
         <DropdownMenuItem asChild>
           <Link to="/signout">
-            <ExitIcon className="mr-2 size-4" aria-hidden="true" />
+            {/* eslint-disable-next-line react/jsx-pascal-case */}
+            <Icons.exitIcon className="mr-2 size-4" aria-hidden="true" />
             Log out
           </Link>
         </DropdownMenuItem>
