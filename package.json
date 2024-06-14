@@ -41,6 +41,7 @@
     "@remix-run/dev": "^2.9.2",
     "@remix-run/eslint-config": "^2.9.2",
     "@rocketseat/eslint-config": "^2.2.2",
+    "@total-typescript/ts-reset": "^0.5.1",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "autoprefixer": "^10.4.19",
