@@ -1,41 +1,31 @@
-import { ExitIcon } from "@radix-ui/react-icons";
+import { ExitIcon, GearIcon, HomeIcon, SunIcon } from "@radix-ui/react-icons";
 import {
   ChevronLeftIcon,
   ChevronsUpDown,
+  CircleUserRoundIcon,
   LogInIcon,
   Search,
+  UsersRoundIcon,
 } from "lucide-react";
 
 export type IconProps = React.HTMLAttributes<SVGElement>;
 
 export const Icons = {
   // lucid-react
-  chevronLeft: ChevronLeftIcon,
-  chevronsUpDown: ChevronsUpDown,
   search: Search,
   logInIcon: LogInIcon,
-
+  chevronLeft: ChevronLeftIcon,
+  chevronsUpDown: ChevronsUpDown,
+  social: UsersRoundIcon,
+  user: CircleUserRoundIcon,
+  
   // radix-ui
+  home: HomeIcon,
+  sun: SunIcon,
   exitIcon: ExitIcon,
+  gear: GearIcon,
 
   // svgs
-  home: (props: IconProps) => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
-      <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
-    </svg>
-  ),
   logo: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -44,13 +34,12 @@ export const Icons = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
       {...props}
     >
-      <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
-      <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
+      <path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z" />
     </svg>
   ),
   spinner: (props: IconProps) => (
