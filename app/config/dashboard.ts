@@ -6,7 +6,7 @@ export const dashboard: Sidebar = {
       title: "Profile",
       href: "/profile",
       icon: 'user',
-      disabled: true,
+      disabled: false,
     },
     {
       title: 'Social',
