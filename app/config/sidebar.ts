@@ -11,7 +11,7 @@ export const sidebar: Sidebar = {
     {
       title: "Search",
       href: "/search",
-      icon: "home",
+      icon: 'search',
       disabled: true,
     },
   ],
