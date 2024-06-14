@@ -10,10 +10,25 @@ export const profile = {
         authorization: `Bearer ${accessToken}`,
       },
     });
-    const data = (await response.json()) as HTTPResponse<
+    const { data } = (await response.json()) as HTTPResponse<
       Profile,
       AuthStatusCode
     >;
-    return data.data;
+    return data;
+  },
+
+  getByProfileId: async (id: string) => {
+    const URL = `http://localhost:8000/api/profile/username/${id}`
+    const response = await fetch(URL, {
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const { data } = (await response.json()) as HTTPResponse<
+      Profile,
+      AuthStatusCode
+    >;
+    return data;
   },
 };
