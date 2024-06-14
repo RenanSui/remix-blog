@@ -1,3 +1,4 @@
+import { ExitIcon } from "@radix-ui/react-icons";
 import {
   ChevronLeftIcon,
   ChevronsUpDown,
@@ -8,10 +9,16 @@ import {
 export type IconProps = React.HTMLAttributes<SVGElement>;
 
 export const Icons = {
+  // lucid-react
   chevronLeft: ChevronLeftIcon,
   chevronsUpDown: ChevronsUpDown,
   search: Search,
   logInIcon: LogInIcon,
+
+  // radix-ui
+  exitIcon: ExitIcon,
+
+  // svgs
   home: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
