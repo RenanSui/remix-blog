@@ -1,45 +1,47 @@
-import { cn } from '@/lib/utils'
-import { ExitIcon } from '@radix-ui/react-icons'
-import { Link } from '@remix-run/react'
-import { ChevronsUpDown } from 'lucide-react'
-import { Icons } from '../icon'
-import type { ButtonProps } from '../ui/button';
-import { Button } from '../ui/button'
+import { cn } from "@/lib/utils";
+import type { Profile } from "@/types";
+import { ExitIcon } from "@radix-ui/react-icons";
+import { Link } from "@remix-run/react";
+import { ChevronsUpDown, LogInIcon } from "lucide-react";
+import { Icons } from "../icon";
+import type { ButtonProps } from "../ui/button";
+import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu'
-
-type User = { name: string }
+} from "../ui/dropdown-menu";
 
 type AuthDropdownProps = ButtonProps & {
-  user: User | null
-  isCollapsed?: boolean
-}
+  profile: Profile | null;
+  isCollapsed?: boolean;
+};
 
 export function AuthDropdown({
-  user,
+  profile,
   isCollapsed,
   className,
   ...props
 }: AuthDropdownProps) {
-  if (!user) {
+  if (!profile) {
     return (
       <Button
         size="sm"
-        variant="outline"
-        className={cn('w-full', className)}
+        variant="default"
+        className={cn("w-full", isCollapsed && "h-9 w-9", className)}
         {...props}
         asChild
       >
-        <Link to="/signin">
-          Sign In
+        <Link to="/signin" className="gap-2">
+          <LogInIcon className="size-4 shrink-0" />
+          <span className={cn("mr-auto", isCollapsed && "hidden")}>
+            Sign In
+          </span>
           <span className="sr-only">Sign In</span>
         </Link>
       </Button>
-    )
+    );
   }
 
   return (
@@ -48,18 +50,18 @@ export function AuthDropdown({
         <Button
           variant="outline"
           className={cn(
-            'w-full hover:bg-transparent',
-            'flex items-center gap-2 [&>span]:line-clamp-1 [&>span]:flex [&>span]:w-full [&>span]:items-center [&>span]:gap-1 [&>span]:truncate [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0',
+            "w-full hover:bg-transparent",
+            "flex items-center gap-2 [&>span]:line-clamp-1 [&>span]:flex [&>span]:w-full [&>span]:items-center [&>span]:gap-1 [&>span]:truncate [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0",
             isCollapsed &&
-              'flex h-9 w-9 shrink-0 items-center justify-center p-0 [&>span]:w-auto',
+              "flex h-9 w-9 shrink-0 items-center justify-center p-0 [&>span]:w-auto"
           )}
         >
           <span className="flex w-full items-center gap-3 [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0 [&_svg]:text-foreground">
             {/* eslint-disable-next-line react/jsx-pascal-case */}
             <Icons.logo className="size-4 shrink-0" />
-            {isCollapsed ? null : user.name}
+            {isCollapsed ? null : profile.name}
             <ChevronsUpDown
-              className={cn('ml-auto size-4 shrink-0', isCollapsed && 'hidden')}
+              className={cn("ml-auto size-4 shrink-0", isCollapsed && "hidden")}
             />
           </span>
         </Button>
@@ -73,5 +75,5 @@ export function AuthDropdown({
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

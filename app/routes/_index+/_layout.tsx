@@ -1,12 +1,18 @@
 import SiteLayout from "@/components/layouts/site-layout";
+import { profile } from "@/lib/actions/profile";
 import { getSidebarCookies } from "@/lib/cookies";
+import { getCookie } from "@/lib/utils";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get("Cookie") ?? "";
   const { sidebarCookies, headers } = await getSidebarCookies(cookieHeader);
-  return json({ ...sidebarCookies }, { headers });
+
+  const accessToken = getCookie("accessToken", cookieHeader);
+  const Profile = accessToken ? await profile.getMe(accessToken) : null;
+
+  return json({ ...sidebarCookies, profile: Profile }, { headers });
 }
 
 export default function Layout() {
@@ -16,8 +22,8 @@ export default function Layout() {
 
   return (
     <SiteLayout
-      user={{ name: "Renan Sui" }}
       page={<Outlet />}
+      profile={data.profile}
       defaultLayout={defaultLayout}
       defaultCollapsed={defaultCollapsed}
       navCollapsedSize={4}

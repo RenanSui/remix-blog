@@ -1,5 +1,6 @@
 import { siteConfig } from "@/config/site";
 import { cn, serializeValue } from "@/lib/utils";
+import type { Profile } from "@/types";
 import * as React from "react";
 import {
   ResizableHandle,
@@ -12,7 +13,7 @@ import { AuthDropdown } from "./auth-dropdown";
 import { SidebarNav } from "./sidebar-nav";
 
 interface SiteLayoutProps {
-  user: { name: string };
+  profile: Profile | null;
   // mails: Mail[]
   defaultLayout: number[] | undefined;
   defaultCollapsed?: boolean;
@@ -21,7 +22,7 @@ interface SiteLayoutProps {
 }
 
 export default function SiteLayout({
-  user,
+  profile,
   defaultLayout = [20, 80],
   defaultCollapsed = false,
   navCollapsedSize,
@@ -67,7 +68,7 @@ export default function SiteLayout({
             isCollapsed ? "h-[52px]" : "px-2"
           )}
         >
-          <AuthDropdown user={user} isCollapsed={isCollapsed} />
+          <AuthDropdown profile={profile} isCollapsed={isCollapsed} />
         </div>
         <Separator />
         <aside>
