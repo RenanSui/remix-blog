@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils";
 import type { Profile } from "@/types";
 import { ExitIcon } from "@radix-ui/react-icons";
 import { Link } from "@remix-run/react";
-import { ChevronsUpDown, LogInIcon } from "lucide-react";
 import { Icons } from "../icon";
 import type { ButtonProps } from "../ui/button";
 import { Button } from "../ui/button";
@@ -34,7 +33,8 @@ export function AuthDropdown({
         asChild
       >
         <Link to="/signin" className="gap-2">
-          <LogInIcon className="size-4 shrink-0" />
+          {/* eslint-disable-next-line react/jsx-pascal-case */}
+          <Icons.logInIcon className="size-4 shrink-0" />
           <span className={cn("mr-auto", isCollapsed && "hidden")}>
             Sign In
           </span>
@@ -60,7 +60,8 @@ export function AuthDropdown({
             {/* eslint-disable-next-line react/jsx-pascal-case */}
             <Icons.logo className="size-4 shrink-0" />
             {isCollapsed ? null : profile.name}
-            <ChevronsUpDown
+            {/* eslint-disable-next-line react/jsx-pascal-case */}
+            <Icons.chevronsUpDown
               className={cn("ml-auto size-4 shrink-0", isCollapsed && "hidden")}
             />
           </span>
