@@ -23,12 +23,14 @@ import { authSchema } from '@/lib/validations/auth'
 import { useNavigate } from '@remix-run/react'
 import { toast } from 'sonner'
 import { Icons } from './icon'
+import { useAccessToken } from '@/hooks/use-access-token'
 
 type Inputs = z.infer<typeof authSchema>
 
 export function SignUpForm() {
   const [loading, setLoading] = React.useState(false)
   const navigate = useNavigate()
+  const [, setAccessToken] = useAccessToken()
 
   const form = useForm<Inputs>({
     resolver: zodResolver(authSchema),
@@ -38,14 +40,16 @@ export function SignUpForm() {
     },
   })
 
-  async function onSubmit(data: Inputs) {
+  async function onSubmit(formData: Inputs) {
     setLoading(true)
     try {
-      const parsed = authSchema.safeParse(data)
+      const parsed = authSchema.safeParse(formData)
       if (!parsed.success) throw new Error(getParsedErrors(parsed))
 
-      const { status } = await auth.signUp(data)
+      const { status, data } = await auth.signUp(formData)
       AuthErrorHandler(status)
+
+      setAccessToken(data ? data.accessToken : null)
       navigate(`/`)
     } catch (err) {
       const error = err as { message: string }

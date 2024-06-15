@@ -10,6 +10,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { useAccessToken } from '@/hooks/use-access-token'
 import { auth } from '@/lib/actions/auth'
 import { AuthErrorHandler } from '@/lib/errors/handle-auth-error'
 import { getParsedErrors } from '@/lib/errors/utils'
@@ -28,6 +29,7 @@ type Inputs = z.infer<typeof authSchema>
 export default function SignInForm() {
   const [loading, setLoading] = React.useState(false)
   const navigate = useNavigate()
+  const [, setAccessToken] = useAccessToken()
 
   const form = useForm<Inputs>({
     resolver: zodResolver(authSchema),
@@ -37,15 +39,17 @@ export default function SignInForm() {
     },
   })
 
-  async function onSubmit(data: Inputs) {
+  async function onSubmit(formData: Inputs) {
     setLoading(true)
     try {
-      const parsed = authSchema.safeParse(data)
+      const parsed = authSchema.safeParse(formData)
       if (!parsed.success) throw new Error(getParsedErrors(parsed))
 
-      const { status } = await auth.signIn({ ...data })
+      const { status, data } = await auth.signIn({ ...formData })
       AuthErrorHandler(status)
-      navigate(`/`)
+
+      setAccessToken(data ? data.accessToken : null)
+      navigate('/')
     } catch (err) {
       const error = err as { message: string }
       toast.error(error.message)
