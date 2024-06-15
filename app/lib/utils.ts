@@ -19,5 +19,5 @@ export function getCookie(cname: string, cookieHeader?: string) {
       return trimmedCookie.substring(name.length, trimmedCookie.length)
     }
   }
-  return ''
+  return null
 }
