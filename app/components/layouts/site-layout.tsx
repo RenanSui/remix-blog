@@ -1,36 +1,33 @@
-import { siteConfig } from '@/config/site'
 import { cn, serializeValue } from '@/lib/utils'
-import type { Profile } from '@/types'
 import * as React from 'react'
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from '../ui/resizable'
-import { ScrollArea } from '../ui/scroll-area'
-import { Separator } from '../ui/separator'
 import { TooltipProvider } from '../ui/tooltip'
-import { AuthDropdown } from './auth-dropdown'
-import { SidebarNav } from './sidebar-nav'
 
 interface SiteLayoutProps {
-  profile: Profile | null
   // mails: Mail[]
   defaultLayout: number[] | undefined
-  defaultCollapsed?: boolean
   navCollapsedSize: number
+  isCollapsed: boolean
+  setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>
+
+  leftSidebar: React.ReactNode
   page: React.ReactNode
+  rightSidebar: React.ReactNode
 }
 
-export default function SiteLayout({
-  profile,
+export function SiteLayout({
   defaultLayout = [20, 80],
-  defaultCollapsed = false,
+  isCollapsed,
+  setIsCollapsed,
   navCollapsedSize,
+  leftSidebar,
+  rightSidebar,
   page,
 }: SiteLayoutProps) {
-  const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed)
-
   return (
     <TooltipProvider delayDuration={0}>
       <ResizablePanelGroup
@@ -65,34 +62,19 @@ export default function SiteLayout({
               'min-w-[50px] transition-all duration-300 ease-in-out',
           )}
         >
-          <div
-            className={cn(
-              'flex h-[52px] items-center justify-center',
-              isCollapsed ? 'h-[52px]' : 'px-2',
-            )}
-          >
-            <AuthDropdown profile={profile} isCollapsed={isCollapsed} />
-          </div>
-          <Separator />
-          <aside>
-            <ScrollArea className="h-[calc(100vh-3.3rem)]">
-              <SidebarNav
-                items={siteConfig.sidebarNav}
-                className="px-2 py-2"
-                isCollapsed={isCollapsed}
-              />
-              <Separator />
-              <SidebarNav
-                items={siteConfig.dashboardNav}
-                className="px-2 py-2"
-                isCollapsed={isCollapsed}
-              />
-            </ScrollArea>
-          </aside>
+          {leftSidebar}
         </ResizablePanel>
         <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
+        <ResizablePanel
+          defaultSize={defaultLayout[1]}
+          minSize={25}
+          maxSize={50}
+        >
           {page}
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel defaultSize={defaultLayout[2]} minSize={30}>
+          {rightSidebar}
         </ResizablePanel>
       </ResizablePanelGroup>
     </TooltipProvider>
