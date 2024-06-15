@@ -49,7 +49,7 @@ export function AuthDropdown({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild className={cn('', className)}>
         <Button
           variant="outline"
           className={cn(
@@ -61,7 +61,7 @@ export function AuthDropdown({
         >
           <span className="flex w-full items-center gap-3 [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0 [&_svg]:text-foreground">
             {/* eslint-disable-next-line react/jsx-pascal-case */}
-            <Icons.logo className="size-4 shrink-0" />
+            <Icons.logo />
             {isCollapsed ? null : profile.name}
             {/* eslint-disable-next-line react/jsx-pascal-case */}
             <Icons.chevronsUpDown
