@@ -27,4 +27,15 @@ export const profile = {
     })
     return (await response.json()) as HTTPResponse<Profile, AuthStatusCode>
   },
+
+  getByUserId: async (userId: string) => {
+    const URL = `http://localhost:8000/api/profile/id/${userId}`
+    const response = await fetch(URL, {
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    return (await response.json()) as HTTPResponse<Profile, AuthStatusCode>
+  },
 }
