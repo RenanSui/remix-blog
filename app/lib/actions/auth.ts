@@ -1,4 +1,4 @@
-import type { HTTPResponse } from '@/types'
+import type { Auth, HTTPResponse } from '@/types'
 import type { z } from 'zod'
 import type { AuthStatusCode } from '../errors/handle-auth-error'
 import type { authSchema } from '../validations/auth'
@@ -17,7 +17,7 @@ export const auth = {
       ...postFetchConfig,
       body: JSON.stringify({ ...formData }),
     })
-    return (await response.json()) as HTTPResponse<void, AuthStatusCode>
+    return (await response.json()) as HTTPResponse<Auth, AuthStatusCode>
   },
 
   signUp: async (formData: Inputs) => {
@@ -25,7 +25,7 @@ export const auth = {
       ...postFetchConfig,
       body: JSON.stringify({ ...formData }),
     })
-    return (await response.json()) as HTTPResponse<void, AuthStatusCode>
+    return (await response.json()) as HTTPResponse<Auth, AuthStatusCode>
   },
 
   signOut: async () => {
