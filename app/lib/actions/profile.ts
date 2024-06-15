@@ -25,10 +25,6 @@ export const profile = {
         'Content-Type': 'application/json',
       },
     })
-    const { data } = (await response.json()) as HTTPResponse<
-      Profile,
-      AuthStatusCode
-    >
-    return data
+    return (await response.json()) as HTTPResponse<Profile, AuthStatusCode>
   },
 }
