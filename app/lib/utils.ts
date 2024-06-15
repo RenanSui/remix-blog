@@ -12,8 +12,8 @@ export function serializeValue(value: unknown) {
 
 export function getCookie(cname: string, cookieHeader?: string) {
   const name = `${cname}=`
-  const ca = cookieHeader ? cookieHeader.split(';') : document.cookie.split(';')
-  for (const c of ca) {
+  const cookies = cookieHeader ? cookieHeader.split(';') : ['']
+  for (const c of cookies) {
     const trimmedCookie = c.trim()
     if (trimmedCookie.indexOf(name) === 0) {
       return trimmedCookie.substring(name.length, trimmedCookie.length)
