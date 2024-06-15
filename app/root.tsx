@@ -8,9 +8,9 @@ import {
   isRouteErrorResponse,
   useRouteError,
 } from '@remix-run/react'
-import { ThemeProvider } from 'next-themes'
 import { Toaster } from 'sonner'
 import { ErrorCard } from './components/error-card'
+import { Providers } from './components/providers/providers'
 import { Shell } from './components/shell'
 import stylesheet from './tailwind.css?url'
 
@@ -28,7 +28,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <Providers>{children}</Providers>
         <Toaster />
         <ScrollRestoration />
         <Scripts />
@@ -44,29 +44,21 @@ export default function App() {
 export function ErrorBoundary() {
   const error = useRouteError()
   return (
-    <html>
-      <head>
-        <title>Oops!</title>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <Shell variant="centered" className="max-w-md">
-          {isRouteErrorResponse(error) ? (
-            <ErrorCard
-              title={error.statusText}
-              description=""
-              retryLink="/"
-              retryLinkText="Go to Home"
-            />
-          ) : error instanceof Error ? (
-            error.message
-          ) : (
-            'Unknown Error'
-          )}
-        </Shell>
-        <Scripts />
-      </body>
-    </html>
+    <div>
+      <Shell variant="centered" className="max-w-md">
+        {isRouteErrorResponse(error) ? (
+          <ErrorCard
+            title={error.statusText}
+            description=""
+            retryLink="/"
+            retryLinkText="Go to Home"
+          />
+        ) : error instanceof Error ? (
+          error.message
+        ) : (
+          'Unknown Error'
+        )}
+      </Shell>
+    </div>
   )
 }
