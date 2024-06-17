@@ -1,11 +1,24 @@
 import { LogOutButtons } from '@/components/logout-button'
 import {
   PageHeader,
-  PageHeaderHeading,
   PageHeaderDescription,
+  PageHeaderHeading,
 } from '@/components/page-header'
 import { Shell } from '@/components/shell'
-import type { MetaFunction } from '@remix-run/node'
+import { profile } from '@/lib/actions/profile'
+import { getCookie } from '@/lib/utils'
+import {
+  LoaderFunctionArgs,
+  redirect,
+  type MetaFunction,
+} from '@remix-run/node'
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const cookieHeader = request.headers.get('Cookie') ?? ''
+  const accessToken = getCookie('accessToken', cookieHeader)
+  const Profile = accessToken ? await profile.getMe(accessToken) : null
+  return !Profile ? redirect('/signin') : null
+}
 
 export const meta: MetaFunction = () => {
   return [{ title: 'Blog - Sign out', description: 'Sign out of your account' }]

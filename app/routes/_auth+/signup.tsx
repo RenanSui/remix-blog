@@ -8,8 +8,17 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import type { MetaFunction } from '@remix-run/node'
-import { Link } from '@remix-run/react'
+import { profile } from '@/lib/actions/profile'
+import { getCookie } from '@/lib/utils'
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
+import { Link, redirect } from '@remix-run/react'
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const cookieHeader = request.headers.get('Cookie') ?? ''
+  const accessToken = getCookie('accessToken', cookieHeader)
+  const Profile = accessToken ? await profile.getMe(accessToken) : null
+  return Profile ? redirect('/signout') : null
+}
 
 export const meta: MetaFunction = () => {
   return [{ title: 'Blog - Sign up', description: 'Sign up for an account' }]
