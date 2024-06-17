@@ -20,7 +20,7 @@ interface SiteLayoutProps {
 }
 
 export function SiteLayout({
-  defaultLayout = [20, 80],
+  defaultLayout = [20, 40, 40],
   isCollapsed,
   setIsCollapsed,
   navCollapsedSize,
