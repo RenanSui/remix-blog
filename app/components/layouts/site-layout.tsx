@@ -1,4 +1,4 @@
-import { cn, serializeValue } from '@/lib/utils'
+import { cn, serializeValue, setCookie } from '@/lib/utils'
 import * as React from 'react'
 import {
   ResizableHandle,
@@ -33,9 +33,12 @@ export function SiteLayout({
       <ResizablePanelGroup
         direction="horizontal"
         onLayout={(sizes: number[]) => {
-          document.cookie = `react-resizable-panels:layout=${serializeValue(
-            sizes,
-          )}`
+          setCookie({
+            name: 'react-resizable-panels:layout',
+            value: serializeValue(sizes),
+            path: '/',
+            maxAge: 60 * 60 * 24 * 30 * 12, // 360 Days
+          })
         }}
         className="h-full items-stretch"
       >
@@ -47,15 +50,21 @@ export function SiteLayout({
           maxSize={20}
           onCollapse={() => {
             setIsCollapsed(true)
-            document.cookie = `react-resizable-panels:collapsed=${serializeValue(
-              true,
-            )}`
+            setCookie({
+              name: 'react-resizable-panels:collapsed',
+              value: serializeValue(true),
+              path: '/',
+              maxAge: 60 * 60 * 24 * 30 * 12, // 360 Days
+            })
           }}
           onExpand={() => {
             setIsCollapsed(false)
-            document.cookie = `react-resizable-panels:collapsed=${serializeValue(
-              false,
-            )}`
+            setCookie({
+              name: 'react-resizable-panels:collapsed',
+              value: serializeValue(false),
+              path: '/',
+              maxAge: 60 * 60 * 24 * 30 * 12, // 360 Days
+            })
           }}
           className={cn(
             isCollapsed &&
