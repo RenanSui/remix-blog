@@ -1,6 +1,8 @@
 import type { HTTPResponse, Profile } from '@/types'
-import type { AuthStatusCode } from '../errors/handle-auth-error'
+import { ProfileStatusCode } from '../errors/handle-profile-error'
 import { UpdateProfileSchema } from '../validations/profile'
+
+type UpdateData<T> = Pick<Profile, 'id' | 'userId'> & T
 
 export const profileService = {
   getMe: async (accessToken: string) => {
@@ -13,7 +15,7 @@ export const profileService = {
     })
     const { data } = (await response.json()) as HTTPResponse<
       Profile,
-      AuthStatusCode
+      ProfileStatusCode
     >
     return data
   },
@@ -26,7 +28,7 @@ export const profileService = {
         'Content-Type': 'application/json',
       },
     })
-    return (await response.json()) as HTTPResponse<Profile, AuthStatusCode>
+    return (await response.json()) as HTTPResponse<Profile, ProfileStatusCode>
   },
 
   getByUserId: async (userId: string) => {
@@ -37,11 +39,11 @@ export const profileService = {
         'Content-Type': 'application/json',
       },
     })
-    return (await response.json()) as HTTPResponse<Profile, AuthStatusCode>
+    return (await response.json()) as HTTPResponse<Profile, ProfileStatusCode>
   },
 
-  update: async (
-    formData: UpdateProfileSchema & { id?: string; userId?: string },
+  updateProfile: async (
+    { name, userId, id }: UpdateData<Pick<UpdateProfileSchema, 'name'>>,
     accessToken: string,
   ) => {
     const response = await fetch('http://localhost:8000/api/profile/update', {
@@ -51,12 +53,65 @@ export const profileService = {
         'Content-Type': 'application/json',
         authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({ ...formData }),
+      body: JSON.stringify({ name, userId, id }),
     })
-    const { data } = (await response.json()) as HTTPResponse<
-      Profile,
-      AuthStatusCode
-    >
-    return data
+    return (await response.json()) as HTTPResponse<void, ProfileStatusCode>
+  },
+
+  updateUsername: async (
+    { username, userId, id }: UpdateData<Pick<UpdateProfileSchema, 'username'>>,
+    accessToken: string,
+  ) => {
+    const response = await fetch(
+      'http://localhost:8000/api/profile/update/username',
+      {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ username, userId, id }),
+      },
+    )
+    return (await response.json()) as HTTPResponse<void, ProfileStatusCode>
+  },
+
+  updateAvatar: async (
+    { image, userId, id }: UpdateData<Pick<UpdateProfileSchema, 'image'>>,
+    accessToken: string,
+  ) => {
+    const response = await fetch(
+      'http://localhost:8000/api/profile/update/avatar',
+      {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ image, userId, id }),
+      },
+    )
+    return (await response.json()) as HTTPResponse<void, ProfileStatusCode>
+  },
+
+  updateBio: async (
+    { bio, userId, id }: UpdateData<Pick<UpdateProfileSchema, 'bio'>>,
+    accessToken: string,
+  ) => {
+    const response = await fetch(
+      'http://localhost:8000/api/profile/update/bio',
+      {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ bio, userId, id }),
+      },
+    )
+    return (await response.json()) as HTTPResponse<void, ProfileStatusCode>
   },
 }
