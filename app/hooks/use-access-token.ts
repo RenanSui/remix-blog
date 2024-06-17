@@ -1,8 +1,6 @@
 import { atom, useAtom } from 'jotai'
 
-type Config = string | null
-
-export const accessTokenAtom = atom<Config>(null)
+export const accessTokenAtom = atom<string | null>(null)
 
 export function useAccessToken() {
   return useAtom(accessTokenAtom)
