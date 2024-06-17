@@ -1,9 +1,10 @@
 import { collapsedCookie, layoutCookie } from '@/cookies.server'
 
+type Layout = { value: number[] | null }
+type Collapsed = { value: boolean | null }
 export async function getSidebarCookies(cookieHeader: string | null) {
-  const layout: { value: number[] } = await layoutCookie.parse(cookieHeader)
-  const collapsed: { value: boolean } =
-    await collapsedCookie.parse(cookieHeader)
+  const layout: Layout = await layoutCookie.parse(cookieHeader)
+  const collapsed: Collapsed = await collapsedCookie.parse(cookieHeader)
 
   const sidebarCookies = { layout, collapsed }
   const headers: HeadersInit | undefined = [
