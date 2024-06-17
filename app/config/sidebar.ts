@@ -14,5 +14,11 @@ export const sidebar: Sidebar = {
       icon: 'search',
       disabled: true,
     },
+    {
+      title: 'Social',
+      href: '/social',
+      icon: 'social',
+      disabled: true,
+    },
   ],
 }

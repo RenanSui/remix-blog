@@ -9,16 +9,10 @@ export const dashboard: Sidebar = {
       disabled: false,
     },
     {
-      title: 'Social',
-      href: '/social',
-      icon: 'social',
-      disabled: false,
-    },
-    {
       title: 'Settings',
       href: '/settings',
       icon: 'gear',
-      disabled: true,
+      disabled: false,
     },
   ],
 }
