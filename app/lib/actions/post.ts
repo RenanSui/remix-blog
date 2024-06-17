@@ -23,4 +23,10 @@ export const postService = {
     })
     return (await response.json()) as HTTPResponse<Post, AuthStatusCode>
   },
+
+  getByUserId: async (userId: string) => {
+    const URL = `http://localhost:8000/api/post/user/${userId}`
+    const response = await fetch(URL)
+    return (await response.json()) as HTTPResponse<Post[], AuthStatusCode>
+  },
 }
