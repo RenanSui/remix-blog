@@ -1,10 +1,10 @@
+import { usePostAtom } from '@/hooks/post'
 import { useNewPost } from '@/hooks/use-new-post'
-import { usePost } from '@/hooks/use-post'
+import { useProfileByUserId } from '@/hooks/use-profile'
 import { cn } from '@/lib/utils'
 import { Post } from '@/types'
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { useProfileByUserId } from '@/hooks/use-profile'
 
 type PostListProps = { items: Post[] }
 
@@ -20,7 +20,7 @@ export function PostList({ items }: PostListProps) {
 
 const PostItem = ({ post }: { post: Post }) => {
   const { data } = useProfileByUserId(post.authorId)
-  const [selectedPost, setSelectedPost] = usePost()
+  const [selectedPost, setSelectedPost] = usePostAtom()
   const [, setNewPost] = useNewPost()
   const profile = data?.data
 

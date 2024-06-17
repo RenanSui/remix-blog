@@ -1,5 +1,5 @@
+import { usePostAtom, usePostById } from '@/hooks/post'
 import { useNewPost } from '@/hooks/use-new-post'
-import { usePost, usePostById } from '@/hooks/use-post'
 import { useProfileByUserId } from '@/hooks/use-profile'
 import { cn } from '@/lib/utils'
 import { Post, Profile } from '@/types'
@@ -17,7 +17,7 @@ interface PostDisplayProps {
 }
 
 export function PostDisplay({ profile }: PostDisplayProps) {
-  const [post, setPost] = usePost()
+  const [post, setPost] = usePostAtom()
   const [newPost, setNewPost] = useNewPost()
 
   return (

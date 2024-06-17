@@ -1,6 +1,6 @@
+import { usePostAtom } from '@/hooks/post'
 import { useAccessToken } from '@/hooks/use-access-token'
 import { useNewPost } from '@/hooks/use-new-post'
-import { usePost } from '@/hooks/use-post'
 import { postService } from '@/lib/actions/post'
 import { cn } from '@/lib/utils'
 import { CreatePostSchema, createPostSchema } from '@/lib/validations/post'
@@ -21,7 +21,7 @@ import { Textarea } from './ui/textarea'
 type AddNewPostProps = Omit<React.ComponentPropsWithRef<'form'>, 'onSubmit'>
 
 export function AddNewPost({ className, ...props }: AddNewPostProps) {
-  const [, setPost] = usePost()
+  const [, setPost] = usePostAtom()
   const [, setNewPost] = useNewPost()
   const [accessToken] = useAccessToken()
 
