@@ -11,7 +11,7 @@ const configAtom = atom<Config>({
   selected: null,
 })
 
-export function usePost() {
+export function usePostAtom() {
   return useAtom(configAtom)
 }
 
