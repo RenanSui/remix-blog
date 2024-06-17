@@ -1,3 +1,4 @@
+import { Post } from '@/types'
 import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
 import { twMerge } from 'tailwind-merge'
@@ -20,4 +21,17 @@ export function getCookie(cname: string, cookieHeader?: string) {
     }
   }
   return null
+}
+
+export function sortPostsByDate(posts: Post[] | null) {
+  return posts
+    ? posts
+        .sort((item1, item2) => {
+          return (
+            new Date(item1.createdAt).getTime() -
+            new Date(item2.createdAt).getTime()
+          )
+        })
+        .reverse()
+    : null
 }
