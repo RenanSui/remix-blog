@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { profile } from '@/lib/actions/profile'
+import { profileService } from '@/lib/actions/profile'
 import { getCookie } from '@/lib/utils'
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
 import { Link, redirect } from '@remix-run/react'
@@ -16,8 +16,8 @@ import { Link, redirect } from '@remix-run/react'
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''
   const accessToken = getCookie('accessToken', cookieHeader)
-  const Profile = accessToken ? await profile.getMe(accessToken) : null
-  return Profile ? redirect('/signout') : null
+  const profile = accessToken ? await profileService.getMe(accessToken) : null
+  return profile ? redirect('/signout') : null
 }
 
 export const meta: MetaFunction = () => {

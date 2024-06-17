@@ -6,7 +6,7 @@ import { PostDisplay } from '@/components/post-display'
 import { getSidebarCookies } from '@/cookies.server'
 import { accessTokenAtom } from '@/hooks/use-access-token'
 import { useMounted } from '@/hooks/use-mounted'
-import { profile } from '@/lib/actions/profile'
+import { profileService } from '@/lib/actions/profile'
 import { getCookie } from '@/lib/utils'
 import { json, type LoaderFunctionArgs } from '@remix-run/node'
 import { Outlet, useLoaderData } from '@remix-run/react'
@@ -18,9 +18,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const { sidebarCookies, headers } = await getSidebarCookies(cookieHeader)
 
   const accessToken = getCookie('accessToken', cookieHeader)
-  const Profile = accessToken ? await profile.getMe(accessToken) : null
+  const profile = accessToken ? await profileService.getMe(accessToken) : null
 
-  return json({ ...sidebarCookies, profile: Profile, accessToken }, { headers })
+  return json({ ...sidebarCookies, profile, accessToken }, { headers })
 }
 
 export default function Layout() {

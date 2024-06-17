@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { postService } from '@/lib/actions/post'
-import { profile } from '@/lib/actions/profile'
+import { profileService } from '@/lib/actions/profile'
 import { HTPPErrorMessages } from '@/lib/errors/handle-auth-error'
 import { sortPostsByDate } from '@/lib/utils'
 import { Post } from '@/types'
@@ -21,8 +21,8 @@ export async function loader({ params }: LoaderFunctionArgs) {
   const username = params.username
   if (!username) return redirect('/')
 
-  const { data: userProfile, status } = await profile.getByUsername(username)
-  if (!userProfile) {
+  const { data: profile, status } = await profileService.getByUsername(username)
+  if (!profile) {
     const message = HTPPErrorMessages[status]
     throw new Response(null, {
       status: 404,
@@ -30,10 +30,10 @@ export async function loader({ params }: LoaderFunctionArgs) {
     })
   }
 
-  const { data: posts } = await postService.getByUserId(userProfile.userId)
+  const { data: posts } = await postService.getByUserId(profile.userId)
   const sortedPosts = sortPostsByDate(posts) || []
 
-  return json({ profile: userProfile, posts: sortedPosts })
+  return json({ profile, posts: sortedPosts })
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
