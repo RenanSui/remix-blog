@@ -1,5 +1,6 @@
 import { SiteLayout } from '@/components/layouts/site-layout'
 import { SiteSidebar } from '@/components/layouts/site-sidebar'
+import { PostDisplay } from '@/components/post-display'
 import { getSidebarCookies } from '@/cookies.server'
 import { accessTokenAtom } from '@/hooks/use-access-token'
 import { useMounted } from '@/hooks/use-mounted'
@@ -25,11 +26,7 @@ export default function Layout() {
   const defaultLayout = data?.layout?.value || undefined
   const defaultCollapsed = data?.collapsed?.value || false
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed)
-
   const mounted = useMounted()
-  // const isTablet = useMediaQuery('(min-width: 768px)')
-  // const [post] = usePost()
-
   useHydrateAtoms([[accessTokenAtom, data.accessToken]])
 
   return mounted ? (
@@ -42,13 +39,7 @@ export default function Layout() {
         <SiteSidebar profile={data.profile} isCollapsed={isCollapsed} />
       }
       page={<Outlet />}
-      rightSidebar={
-        <div></div>
-        // <PostDisplay
-        //   profile={data.profile}
-        //   post={posts.find((item) => item.id === post.selected)}
-        // />
-      }
+      rightSidebar={<PostDisplay profile={data.profile} />}
     />
   ) : (
     <div></div>
