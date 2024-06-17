@@ -49,7 +49,7 @@ export default function SignInForm() {
       AuthErrorHandler(status)
 
       setAccessToken(data ? data.accessToken : null)
-      navigate('/')
+      setTimeout(() => navigate('/'), 1000)
     } catch (err) {
       const error = err as { message: string }
       toast.error(error.message)

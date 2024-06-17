@@ -31,7 +31,7 @@ export function LogOutButtons() {
           onClick={() => {
             auth.signOut()
             setAccessToken(null)
-            navigate('/')
+            setTimeout(() => navigate('/'), 1000)
           }}
         >
           Log out
