@@ -118,7 +118,10 @@ const PostItem = ({ post }: { post: Post }) => {
       <div className="flex items-start p-4">
         <div className="flex items-start gap-4 text-sm">
           <Avatar>
-            <AvatarImage alt={profile.image} />
+            <AvatarImage
+              src={profile?.image}
+              alt={`${profile?.username}'s profile picture.`}
+            />
             <AvatarFallback>
               {profile.name
                 .split(' ')

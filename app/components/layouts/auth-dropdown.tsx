@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils'
 import type { Profile } from '@/types'
 import { Link } from '@remix-run/react'
 import { Icons } from '../icon'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import type { ButtonProps } from '../ui/button'
 import { Button } from '../ui/button'
 import {
@@ -36,7 +37,6 @@ export function AuthDropdown({
         asChild
       >
         <Link to="/signin" className="gap-2">
-          {/* eslint-disable-next-line react/jsx-pascal-case */}
           <Icons.logInIcon className="size-4 shrink-0" />
           <span className={cn('mr-auto', isCollapsed && 'hidden')}>
             Sign In
@@ -60,10 +60,20 @@ export function AuthDropdown({
           )}
         >
           <span className="flex w-full items-center gap-3 [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0 [&_svg]:text-foreground">
-            {/* eslint-disable-next-line react/jsx-pascal-case */}
-            <Icons.logo />
+            {profile?.image ? '' : <Icons.logo />}
+            <Avatar className="size-4">
+              <AvatarImage
+                src={profile?.image}
+                alt={`${profile?.username}'s profile picture.`}
+              />
+              <AvatarFallback>
+                {profile.name
+                  .split(' ')
+                  .map((chunk) => chunk[0])
+                  .join('')}
+              </AvatarFallback>
+            </Avatar>
             {isCollapsed ? null : profile.name}
-            {/* eslint-disable-next-line react/jsx-pascal-case */}
             <Icons.chevronsUpDown
               className={cn('ml-auto size-4 shrink-0', isCollapsed && 'hidden')}
             />
@@ -83,7 +93,6 @@ export function AuthDropdown({
         <DropdownMenuGroup>
           <div className="flex items-center justify-between px-2 py-1.5">
             <div className="flex items-center text-sm">
-              {/* eslint-disable-next-line react/jsx-pascal-case */}
               <Icons.sun className="mr-2 size-4" aria-hidden="true" />
               Theme
             </div>
@@ -93,7 +102,6 @@ export function AuthDropdown({
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link to="/signout">
-            {/* eslint-disable-next-line react/jsx-pascal-case */}
             <Icons.exitIcon className="mr-2 size-4" aria-hidden="true" />
             Log out
           </Link>
