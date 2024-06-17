@@ -25,6 +25,7 @@ export type Profile = {
   username: string
   bio?: string
   image?: string
+  userId: string
 }
 
 export type Post = {
