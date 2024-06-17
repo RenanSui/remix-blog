@@ -23,6 +23,16 @@ export function getCookie(cname: string, cookieHeader?: string) {
   return null
 }
 
+type SetCookieProps = {
+  name: string
+  value: string
+  path?: string
+  maxAge?: number
+}
+export function setCookie({ maxAge, name, path, value }: SetCookieProps) {
+  document.cookie = `${name}=${value}; path=${path}; max-age=${maxAge}`
+}
+
 export function sortPostsByDate(posts: Post[] | null) {
   return posts
     ? posts
