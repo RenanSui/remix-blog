@@ -60,19 +60,22 @@ export function AuthDropdown({
           )}
         >
           <span className="flex w-full items-center gap-3 [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0 [&_svg]:text-foreground">
-            {profile?.image ? '' : <Icons.logo />}
-            <Avatar className="size-4">
-              <AvatarImage
-                src={profile?.image}
-                alt={`${profile?.username}'s profile picture.`}
-              />
-              <AvatarFallback>
-                {profile.name
-                  .split(' ')
-                  .map((chunk) => chunk[0])
-                  .join('')}
-              </AvatarFallback>
-            </Avatar>
+            {profile?.image ? (
+              <Avatar className="size-4">
+                <AvatarImage
+                  src={profile?.image}
+                  alt={`${profile?.username}'s profile picture.`}
+                />
+                <AvatarFallback>
+                  {profile.name
+                    .split(' ')
+                    .map((chunk) => chunk[0])
+                    .join('')}
+                </AvatarFallback>
+              </Avatar>
+            ) : (
+              <Icons.logo className="mr-1" />
+            )}
             {isCollapsed ? null : profile.name}
             <Icons.chevronsUpDown
               className={cn('ml-auto size-4 shrink-0', isCollapsed && 'hidden')}
