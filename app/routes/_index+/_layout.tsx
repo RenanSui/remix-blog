@@ -1,5 +1,7 @@
 import { SiteLayout } from '@/components/layouts/site-layout'
 import { SiteSidebar } from '@/components/layouts/site-sidebar'
+import { PostDisplaySkeleton } from '@/components/loadings/post-display-skeleton'
+import { SiteSidebarSkeleton } from '@/components/loadings/site-sidebar-skeleton'
 import { PostDisplay } from '@/components/post-display'
 import { getSidebarCookies } from '@/cookies.server'
 import { accessTokenAtom } from '@/hooks/use-access-token'
@@ -23,7 +25,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function Layout() {
   const data = useLoaderData<typeof loader>()
-  const defaultLayout = data?.layout?.value || undefined
+  const defaultLayout = data?.layout?.value || [20, 40, 40]
   const defaultCollapsed = data?.collapsed?.value || false
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed)
   const mounted = useMounted()
@@ -42,6 +44,14 @@ export default function Layout() {
       rightSidebar={<PostDisplay profile={data.profile} />}
     />
   ) : (
-    <div></div>
+    <SiteLayout
+      defaultLayout={defaultLayout}
+      navCollapsedSize={4}
+      isCollapsed={isCollapsed}
+      setIsCollapsed={setIsCollapsed}
+      leftSidebar={<SiteSidebarSkeleton isCollapsed={isCollapsed} />}
+      page={null}
+      rightSidebar={<PostDisplaySkeleton />}
+    />
   )
 }
