@@ -15,6 +15,17 @@ export function usePostAtom() {
   return useAtom(configAtom)
 }
 
+export function usePostByUserId(userId: string | undefined) {
+  return useQuery({
+    queryKey: [`post-by-userId-${userId}`],
+    queryFn: async () =>
+      userId ? await postService.getByUserId(userId) : null,
+    gcTime: Infinity,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  })
+}
+
 export function usePostById(postId: string | null) {
   return useQuery({
     queryKey: [`post-by-id-${postId}`],
