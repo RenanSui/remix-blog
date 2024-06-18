@@ -17,6 +17,9 @@ import {
   FormMessage,
 } from './ui/form'
 import { Textarea } from './ui/textarea'
+import { PostErrorHandler } from '@/lib/errors/handle-post-error'
+import { toast } from 'sonner'
+import { getParsedErrors } from '@/lib/errors/utils'
 
 type AddNewPostProps = Omit<React.ComponentPropsWithRef<'form'>, 'onSubmit'>
 
@@ -38,10 +41,18 @@ export function AddNewPost({ className, ...props }: AddNewPostProps) {
     }
 
     try {
-      const { data } = await postService.create(formData, accessToken)
+      const parsed = createPostSchema.safeParse(formData)
+      if (!parsed.success) throw new Error(getParsedErrors(parsed))
+
+      const { data, status } = await postService.create(formData, accessToken)
+
+      PostErrorHandler(status)
+
+      toast.success('Post created.')
       setPost({ selected: data ? data.id : null })
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      const error = err as { message: string }
+      toast.error(error.message)
     } finally {
       setAction('post')
     }
