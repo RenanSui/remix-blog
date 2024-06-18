@@ -1,14 +1,18 @@
 import { usePostAtom, usePostById } from '@/hooks/post'
-import { usePostDisplayAction } from '@/hooks/use-post-display-action'
+import {
+  DisplayAction,
+  usePostDisplayAction,
+} from '@/hooks/use-post-display-action'
 import { useProfileByUserId } from '@/hooks/use-profile'
 import { cn } from '@/lib/utils'
 import { Profile } from '@/types'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@radix-ui/react-tabs'
 import { Link } from '@remix-run/react'
 import { format } from 'date-fns/format'
 import { AddNewPost } from './add-new-post'
 import { Icons } from './icon'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { Button, buttonVariants } from './ui/button'
+import { buttonVariants } from './ui/button'
 import { Separator } from './ui/separator'
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 
@@ -21,70 +25,67 @@ export function PostDisplay({ profile }: PostDisplayProps) {
   const [action, setAction] = usePostDisplayAction()
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="p-2 gap-2 flex items-center justify-end">
+    <Tabs
+      className="flex h-full flex-col"
+      value={action}
+      defaultValue={action}
+      onValueChange={(value) => setAction(value as DisplayAction)}
+    >
+      <TabsList className="p-2 gap-2 flex items-center justify-end">
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => {
-                setAction('add')
-                setPost({ selected: null })
-              }}
+            <TabsTrigger
+              value="add"
+              className={buttonVariants({ variant: 'ghost', size: 'icon' })}
+              onClick={() => setPost({ selected: null })}
             >
               <Icons.pencil className="h-4 w-4" />
               <span className="sr-only"></span>
-            </Button>
+            </TabsTrigger>
           </TooltipTrigger>
           <TooltipContent>Post</TooltipContent>
         </Tooltip>
         <Separator orientation="vertical" className="mx-1 h-6" />
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
+            <TabsTrigger
+              value="post"
+              className={buttonVariants({ variant: 'ghost', size: 'icon' })}
               disabled={!post.selected}
-              onClick={() => {
-                setAction('post')
-                setPost({ selected: null })
-              }}
+              onClick={() => setPost({ selected: null })}
             >
               <Icons.clear className="h-4 w-4" />
               <span className="sr-only">Deselect</span>
-            </Button>
+            </TabsTrigger>
           </TooltipTrigger>
           <TooltipContent>Deselect</TooltipContent>
         </Tooltip>
-      </div>
+      </TabsList>
       <Separator />
-
-      {action === 'add' && profile && (
-        <div className="p-4">
-          <AddNewPost />
-        </div>
-      )}
-
-      {action === 'post' && post.selected && (
-        <PostItem postId={post.selected} />
-      )}
-
-      {action === 'add' && !profile && (
-        <div className="p-8 flex flex-col items-center gap-4">
-          Sign in to start posting.
-          <Link to="/signin" className={cn(buttonVariants({ size: 'sm' }))}>
-            Sign In
-          </Link>
-        </div>
-      )}
-
-      {action === 'post' && !post.selected && (
-        <p className="p-8 text-center text-muted-foreground">
-          No message selected
-        </p>
-      )}
-    </div>
+      <TabsContent value="post">
+        {post.selected ? (
+          <PostItem postId={post.selected} />
+        ) : (
+          <p className="p-8 text-center text-muted-foreground">
+            No message selected
+          </p>
+        )}
+      </TabsContent>
+      <TabsContent value="add">
+        {profile ? (
+          <div className="p-4">
+            <AddNewPost />
+          </div>
+        ) : (
+          <div className="p-8 flex flex-col items-center gap-4">
+            Sign in to start posting.
+            <Link to="/signin" className={cn(buttonVariants({ size: 'sm' }))}>
+              Sign In
+            </Link>
+          </div>
+        )}
+      </TabsContent>
+    </Tabs>
   )
 }
 
