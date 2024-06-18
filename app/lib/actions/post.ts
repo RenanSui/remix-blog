@@ -46,4 +46,16 @@ export const postService = {
     })
     return (await response.json()) as HTTPResponse<Post, PostStatusCode>
   },
+
+  delete: async ({ id, authorId }: Post, accessToken: string) => {
+    const response = await fetch('http://localhost:8000/api/post/delete', {
+      ...postFetchConfig,
+      headers: {
+        ...postFetchConfig.headers,
+        authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ id, authorId }),
+    })
+    return (await response.json()) as HTTPResponse<void, PostStatusCode>
+  },
 }
