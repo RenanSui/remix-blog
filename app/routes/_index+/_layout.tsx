@@ -31,27 +31,31 @@ export default function Layout() {
   const mounted = useMounted()
   useHydrateAtoms([[accessTokenAtom, data.accessToken]])
 
-  return mounted ? (
-    <SiteLayout
-      defaultLayout={defaultLayout}
-      navCollapsedSize={4}
-      isCollapsed={isCollapsed}
-      setIsCollapsed={setIsCollapsed}
-      leftSidebar={
-        <SiteSidebar profile={data.profile} isCollapsed={isCollapsed} />
-      }
-      page={<Outlet />}
-      rightSidebar={<PostDisplay profile={data.profile} />}
-    />
-  ) : (
-    <SiteLayout
-      defaultLayout={defaultLayout}
-      navCollapsedSize={4}
-      isCollapsed={isCollapsed}
-      setIsCollapsed={setIsCollapsed}
-      leftSidebar={<SiteSidebarSkeleton isCollapsed={isCollapsed} />}
-      page={null}
-      rightSidebar={<PostDisplaySkeleton />}
-    />
+  return (
+    <div className="max-w-7xl mx-auto border-x">
+      {mounted ? (
+        <SiteLayout
+          defaultLayout={defaultLayout}
+          navCollapsedSize={4}
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
+          leftSidebar={
+            <SiteSidebar profile={data.profile} isCollapsed={isCollapsed} />
+          }
+          page={<Outlet />}
+          rightSidebar={<PostDisplay profile={data.profile} />}
+        />
+      ) : (
+        <SiteLayout
+          defaultLayout={defaultLayout}
+          navCollapsedSize={4}
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
+          leftSidebar={<SiteSidebarSkeleton isCollapsed={isCollapsed} />}
+          page={null}
+          rightSidebar={<PostDisplaySkeleton />}
+        />
+      )}
+    </div>
   )
 }
