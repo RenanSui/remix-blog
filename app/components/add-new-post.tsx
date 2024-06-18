@@ -2,11 +2,14 @@ import { usePostAtom } from '@/hooks/post'
 import { useAccessToken } from '@/hooks/use-access-token'
 import { usePostDisplayAction } from '@/hooks/use-post-display-action'
 import { postService } from '@/lib/actions/post'
+import { PostErrorHandler } from '@/lib/errors/handle-post-error'
+import { getParsedErrors } from '@/lib/errors/utils'
 import { cn } from '@/lib/utils'
 import { CreatePostSchema, createPostSchema } from '@/lib/validations/post'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { Button } from './ui/button'
 import {
   Form,
@@ -17,9 +20,6 @@ import {
   FormMessage,
 } from './ui/form'
 import { Textarea } from './ui/textarea'
-import { PostErrorHandler } from '@/lib/errors/handle-post-error'
-import { toast } from 'sonner'
-import { getParsedErrors } from '@/lib/errors/utils'
 
 type AddNewPostProps = Omit<React.ComponentPropsWithRef<'form'>, 'onSubmit'>
 
@@ -91,15 +91,12 @@ export function AddNewPost({ className, ...props }: AddNewPostProps) {
           )}
         >
           <Button size="sm" type="submit">
-            Submit
+            Add
           </Button>
           <Button
             variant="ghost"
             type="button"
-            onClick={() => {
-              setPost({ selected: null })
-              setAction('post')
-            }}
+            onClick={() => setAction('post')}
           >
             Cancel
           </Button>

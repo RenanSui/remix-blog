@@ -39,7 +39,6 @@ export function PostDisplay({ profile }: PostDisplayProps) {
             <TabsTrigger
               value="add"
               className={buttonVariants({ variant: 'ghost', size: 'icon' })}
-              onClick={() => setPost({ selected: null })}
             >
               <Icons.add className="h-4 w-4" />
               <span className="sr-only"></span>
