@@ -17,7 +17,7 @@ export function usePostAtom() {
 
 export function usePostById(postId: string | null) {
   return useQuery({
-    queryKey: [`use-post-by-id-${postId}`],
+    queryKey: [`post-by-id-${postId}`],
     queryFn: async () => (postId ? await postService.getById(postId) : null),
     gcTime: Infinity,
     staleTime: Infinity,
