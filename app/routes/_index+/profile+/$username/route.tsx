@@ -9,6 +9,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
+import { usePostByUserId } from '@/hooks/post'
 import { postService } from '@/lib/actions/post'
 import { profileService } from '@/lib/actions/profile'
 import { HTPPErrorMessages } from '@/lib/errors/handle-auth-error'
@@ -30,10 +31,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     })
   }
 
-  const { data: posts } = await postService.getByUserId(profile.userId)
-  const sortedPosts = sortPostsByDate(posts) || []
-
-  return json({ profile, posts: sortedPosts })
+  return json({ profile })
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -50,7 +48,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 }
 
 export default function ProfilePage() {
-  const { profile, posts } = useLoaderData<typeof loader>()
+  const { profile } = useLoaderData<typeof loader>()
+  const posts = sortPostsByDate(usePostByUserId(profile?.userId).data?.data)
 
   return profile ? (
     <main>
@@ -86,7 +85,7 @@ export default function ProfilePage() {
               </ProfileDescription>
             </ProfileHeader>
           </Profile>
-          <PostList items={posts as unknown as Post[]} />
+          {posts && <PostList items={posts as unknown as Post[]} />}
         </div>
       </ScrollArea>
     </main>
