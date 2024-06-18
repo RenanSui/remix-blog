@@ -26,6 +26,7 @@ import { toast } from 'sonner'
 import * as z from 'zod'
 import { Button } from './ui/button'
 import { Textarea } from './ui/textarea'
+import { useQueryClient } from '@tanstack/react-query'
 
 type ProfileFormProps = {
   profile: Profile | null
@@ -33,6 +34,7 @@ type ProfileFormProps = {
 
 export const ProfileForm = ({ profile }: ProfileFormProps) => {
   const [accessToken] = useAccessToken()
+  const queryClient = useQueryClient()
   const navigate = useNavigate()
 
   const form = useForm<z.infer<typeof updateProfileSchema>>({
@@ -112,7 +114,10 @@ export const ProfileForm = ({ profile }: ProfileFormProps) => {
       }
     }
 
-    navigate('/profile', { replace: true })
+    const { userId } = profile
+    queryClient.invalidateQueries({ queryKey: [`profile-by-userid-${userId}`] })
+    toast.success('Profile updated.')
+    navigate('/profile')
   }
 
   return (
