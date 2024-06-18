@@ -33,7 +33,7 @@ export function setCookie({ maxAge, name, path, value }: SetCookieProps) {
   document.cookie = `${name}=${value}; path=${path}; max-age=${maxAge}`
 }
 
-export function sortPostsByDate(posts: Post[] | null) {
+export function sortPostsByDate(posts: Post[] | null | undefined) {
   return posts
     ? posts
         .sort((item1, item2) => {
