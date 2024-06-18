@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@radix-ui/react-tabs'
 import { Link } from '@remix-run/react'
 import { format } from 'date-fns/format'
 import { AddNewPost } from './add-new-post'
+import { DeletePost } from './delete-post'
 import { Icons } from './icon'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { buttonVariants } from './ui/button'
@@ -61,15 +62,17 @@ export function PostDisplay({ profile }: PostDisplayProps) {
             <TooltipContent>Update</TooltipContent>
           </Tooltip>
         )}
-        {post?.authorId === profile?.userId && (
+        {post && post?.authorId === profile?.userId && (
           <Tooltip>
             <TooltipTrigger asChild>
               <TabsTrigger
-                value="delete"
+                value="post"
                 disabled={!postId.selected}
                 className={buttonVariants({ variant: 'ghost', size: 'icon' })}
               >
-                <Icons.delete className="h-4 w-4" />
+                <DeletePost post={post}>
+                  <Icons.delete className="h-4 w-4" />
+                </DeletePost>
                 <span className="sr-only"></span>
               </TabsTrigger>
             </TooltipTrigger>
