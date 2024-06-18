@@ -1,4 +1,12 @@
-import { ExitIcon, GearIcon, HomeIcon, SunIcon } from '@radix-ui/react-icons'
+import {
+  CaretSortIcon,
+  ExitIcon,
+  GearIcon,
+  HomeIcon,
+  LaptopIcon,
+  MoonIcon,
+  SunIcon,
+} from '@radix-ui/react-icons'
 import {
   ChevronLeftIcon,
   ChevronsUpDown,
@@ -26,8 +34,11 @@ export const Icons = {
   // radix-ui
   home: HomeIcon,
   sun: SunIcon,
+  moon: MoonIcon,
   exitIcon: ExitIcon,
   gear: GearIcon,
+  caretSortIcon: CaretSortIcon,
+  laptopIcon: LaptopIcon,
 
   // svgs
   logo: (props: IconProps) => (
