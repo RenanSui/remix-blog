@@ -1,5 +1,5 @@
 import { usePostAtom } from '@/hooks/post'
-import { useNewPost } from '@/hooks/use-new-post'
+import { usePostDisplayAction } from '@/hooks/use-post-display-action'
 import { useProfileByUserId } from '@/hooks/use-profile'
 import { cn } from '@/lib/utils'
 import { Post } from '@/types'
@@ -21,7 +21,7 @@ export function PostList({ items }: PostListProps) {
 const PostItem = ({ post }: { post: Post }) => {
   const { data } = useProfileByUserId(post.authorId)
   const [selectedPost, setSelectedPost] = usePostAtom()
-  const [, setNewPost] = useNewPost()
+  const [, setAction] = usePostDisplayAction()
   const profile = data?.data
 
   return (
@@ -35,7 +35,7 @@ const PostItem = ({ post }: { post: Post }) => {
           ...selectedPost,
           selected: post.id,
         })
-        setNewPost(false)
+        setAction('post')
       }}
     >
       <div className="flex w-full flex-col gap-1">

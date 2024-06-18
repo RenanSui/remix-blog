@@ -1,6 +1,6 @@
 import { usePostAtom } from '@/hooks/post'
 import { useAccessToken } from '@/hooks/use-access-token'
-import { useNewPost } from '@/hooks/use-new-post'
+import { usePostDisplayAction } from '@/hooks/use-post-display-action'
 import { postService } from '@/lib/actions/post'
 import { cn } from '@/lib/utils'
 import { CreatePostSchema, createPostSchema } from '@/lib/validations/post'
@@ -22,7 +22,7 @@ type AddNewPostProps = Omit<React.ComponentPropsWithRef<'form'>, 'onSubmit'>
 
 export function AddNewPost({ className, ...props }: AddNewPostProps) {
   const [, setPost] = usePostAtom()
-  const [, setNewPost] = useNewPost()
+  const [, setAction] = usePostDisplayAction()
   const [accessToken] = useAccessToken()
 
   const form = useForm<CreatePostSchema>({
@@ -43,7 +43,7 @@ export function AddNewPost({ className, ...props }: AddNewPostProps) {
     } catch (error) {
       console.log(error)
     } finally {
-      setNewPost(false)
+      setAction('post')
     }
   }
 
@@ -87,7 +87,7 @@ export function AddNewPost({ className, ...props }: AddNewPostProps) {
             type="button"
             onClick={() => {
               setPost({ selected: null })
-              setNewPost(false)
+              setAction('post')
             }}
           >
             Cancel

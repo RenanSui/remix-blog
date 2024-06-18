@@ -1,8 +1,8 @@
 import { usePostAtom, usePostById } from '@/hooks/post'
-import { useNewPost } from '@/hooks/use-new-post'
+import { usePostDisplayAction } from '@/hooks/use-post-display-action'
 import { useProfileByUserId } from '@/hooks/use-profile'
 import { cn } from '@/lib/utils'
-import { Post, Profile } from '@/types'
+import { Profile } from '@/types'
 import { Link } from '@remix-run/react'
 import { format } from 'date-fns/format'
 import { AddNewPost } from './add-new-post'
@@ -18,7 +18,7 @@ interface PostDisplayProps {
 
 export function PostDisplay({ profile }: PostDisplayProps) {
   const [post, setPost] = usePostAtom()
-  const [newPost, setNewPost] = useNewPost()
+  const [action, setAction] = usePostDisplayAction()
 
   return (
     <div className="flex h-full flex-col">
@@ -29,7 +29,7 @@ export function PostDisplay({ profile }: PostDisplayProps) {
               variant="ghost"
               size="icon"
               onClick={() => {
-                setNewPost(!newPost)
+                setAction('add')
                 setPost({ selected: null })
               }}
             >
@@ -45,9 +45,9 @@ export function PostDisplay({ profile }: PostDisplayProps) {
             <Button
               variant="ghost"
               size="icon"
-              disabled={!post.selected && !newPost}
+              disabled={!post.selected}
               onClick={() => {
-                setNewPost(false)
+                setAction('post')
                 setPost({ selected: null })
               }}
             >
@@ -59,53 +59,44 @@ export function PostDisplay({ profile }: PostDisplayProps) {
         </Tooltip>
       </div>
       <Separator />
-      <PostDisplayContent postId={post.selected} profile={profile} />
+
+      {action === 'add' && profile && (
+        <div className="p-4">
+          <AddNewPost />
+        </div>
+      )}
+
+      {action === 'post' && post.selected && (
+        <PostItem postId={post.selected} />
+      )}
+
+      {action === 'add' && !profile && (
+        <div className="p-8 flex flex-col items-center gap-4">
+          Sign in to start posting.
+          <Link to="/signin" className={cn(buttonVariants({ size: 'sm' }))}>
+            Sign In
+          </Link>
+        </div>
+      )}
+
+      {action === 'post' && !post.selected && (
+        <p className="p-8 text-center text-muted-foreground">
+          No message selected
+        </p>
+      )}
     </div>
   )
 }
 
-interface PostDisplayContentProps {
-  postId: string | null
-  profile: Profile | null
-}
-function PostDisplayContent({ postId, profile }: PostDisplayContentProps) {
+const PostItem = ({ postId }: { postId: string }) => {
   const post = usePostById(postId)?.data?.data
-  const [isNewPost] = useNewPost()
-
-  if (isNewPost && !profile) {
-    return (
-      <div className="p-8 flex flex-col items-center gap-4">
-        <p className="text-center text-muted-foreground">
-          Sign in to start posting.
-        </p>
-        <Link to="/signin" className={cn(buttonVariants({ size: 'sm' }), '')}>
-          Sign In
-        </Link>
-      </div>
-    )
-  }
-
-  if (isNewPost && profile) {
-    return (
-      <div className="p-4">
-        <AddNewPost />
-      </div>
-    )
-  }
+  const profile = useProfileByUserId(post?.authorId)?.data?.data
 
   if (!post) {
     return (
-      <p className="p-8 text-center text-muted-foreground">
-        No message selected
-      </p>
+      <p className="p-8 text-center text-muted-foreground">Post not found</p>
     )
   }
-
-  return <PostItem post={post} />
-}
-
-const PostItem = ({ post }: { post: Post }) => {
-  const profile = useProfileByUserId(post.authorId)?.data?.data
 
   if (!profile) {
     return (
