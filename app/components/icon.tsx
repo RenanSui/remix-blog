@@ -12,10 +12,12 @@ import {
   ChevronsUpDown,
   CircleUserRoundIcon,
   LogInIcon,
-  PencilIcon,
+  MessageSquareOff,
+  PenLineIcon,
   Search,
+  SquarePlus,
+  Trash2,
   UsersRoundIcon,
-  XIcon,
 } from 'lucide-react'
 
 export type IconProps = React.HTMLAttributes<SVGElement>
@@ -28,8 +30,10 @@ export const Icons = {
   chevronsUpDown: ChevronsUpDown,
   social: UsersRoundIcon,
   user: CircleUserRoundIcon,
-  clear: XIcon,
-  pencil: PencilIcon,
+  add: SquarePlus,
+  pencil: PenLineIcon,
+  delete: Trash2,
+  clean: MessageSquareOff,
 
   // radix-ui
   home: HomeIcon,
