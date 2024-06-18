@@ -5,7 +5,7 @@ import {
 } from '@/hooks/use-post-display-action'
 import { useProfileByUserId } from '@/hooks/use-profile'
 import { cn } from '@/lib/utils'
-import { Profile } from '@/types'
+import { Post, Profile } from '@/types'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@radix-ui/react-tabs'
 import { Link } from '@remix-run/react'
 import { format } from 'date-fns/format'
@@ -15,14 +15,16 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { buttonVariants } from './ui/button'
 import { Separator } from './ui/separator'
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
+import { UpdatePost } from './update-post'
 
 interface PostDisplayProps {
   profile: Profile | null
 }
 
 export function PostDisplay({ profile }: PostDisplayProps) {
-  const [post, setPost] = usePostAtom()
+  const [postId, setPost] = usePostAtom()
   const [action, setAction] = usePostDisplayAction()
+  const post = usePostById(postId.selected)?.data?.data
 
   return (
     <Tabs
@@ -31,7 +33,7 @@ export function PostDisplay({ profile }: PostDisplayProps) {
       defaultValue={action}
       onValueChange={(value) => setAction(value as DisplayAction)}
     >
-      <TabsList className="p-2 gap-2 flex items-center justify-end">
+      <TabsList className="p-2 gap-2 flex items-center">
         <Tooltip>
           <TooltipTrigger asChild>
             <TabsTrigger
@@ -39,32 +41,61 @@ export function PostDisplay({ profile }: PostDisplayProps) {
               className={buttonVariants({ variant: 'ghost', size: 'icon' })}
               onClick={() => setPost({ selected: null })}
             >
-              <Icons.pencil className="h-4 w-4" />
+              <Icons.add className="h-4 w-4" />
               <span className="sr-only"></span>
             </TabsTrigger>
           </TooltipTrigger>
-          <TooltipContent>Post</TooltipContent>
+          <TooltipContent>Add New</TooltipContent>
         </Tooltip>
-        <Separator orientation="vertical" className="mx-1 h-6" />
+        {post?.authorId === profile?.userId && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <TabsTrigger
+                value="update"
+                disabled={!postId.selected}
+                className={buttonVariants({ variant: 'ghost', size: 'icon' })}
+              >
+                <Icons.pencil className="h-4 w-4" />
+                <span className="sr-only"></span>
+              </TabsTrigger>
+            </TooltipTrigger>
+            <TooltipContent>Update</TooltipContent>
+          </Tooltip>
+        )}
+        {post?.authorId === profile?.userId && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <TabsTrigger
+                value="delete"
+                disabled={!postId.selected}
+                className={buttonVariants({ variant: 'ghost', size: 'icon' })}
+              >
+                <Icons.delete className="h-4 w-4" />
+                <span className="sr-only"></span>
+              </TabsTrigger>
+            </TooltipTrigger>
+            <TooltipContent>Delete</TooltipContent>
+          </Tooltip>
+        )}
         <Tooltip>
-          <TooltipTrigger asChild>
+          <TooltipTrigger asChild className="ml-auto">
             <TabsTrigger
               value="post"
               className={buttonVariants({ variant: 'ghost', size: 'icon' })}
-              disabled={!post.selected}
+              disabled={!postId.selected}
               onClick={() => setPost({ selected: null })}
             >
-              <Icons.clear className="h-4 w-4" />
-              <span className="sr-only">Deselect</span>
+              <Icons.clean className="h-4 w-4" />
+              <span className="sr-only">Clean display</span>
             </TabsTrigger>
           </TooltipTrigger>
-          <TooltipContent>Deselect</TooltipContent>
+          <TooltipContent>Clean display</TooltipContent>
         </Tooltip>
       </TabsList>
       <Separator />
       <TabsContent value="post">
-        {post.selected ? (
-          <PostItem postId={post.selected} />
+        {postId.selected && post ? (
+          <PostItem post={post} />
         ) : (
           <p className="p-8 text-center text-muted-foreground">
             No message selected
@@ -85,19 +116,19 @@ export function PostDisplay({ profile }: PostDisplayProps) {
           </div>
         )}
       </TabsContent>
+      <TabsContent value="update">
+        {profile && post && (
+          <div className="p-4">
+            <UpdatePost post={post} />
+          </div>
+        )}
+      </TabsContent>
     </Tabs>
   )
 }
 
-const PostItem = ({ postId }: { postId: string }) => {
-  const post = usePostById(postId)?.data?.data
-  const profile = useProfileByUserId(post?.authorId)?.data?.data
-
-  if (!post) {
-    return (
-      <p className="p-8 text-center text-muted-foreground">Post not found</p>
-    )
-  }
+const PostItem = ({ post }: { post: Post }) => {
+  const profile = useProfileByUserId(post.authorId)?.data?.data
 
   if (!profile) {
     return (
