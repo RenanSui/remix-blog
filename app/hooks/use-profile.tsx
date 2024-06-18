@@ -1,7 +1,7 @@
 import { profileService } from '@/lib/actions/profile'
 import { useQuery } from '@tanstack/react-query'
 
-export const useProfileByUserId = (userId: string | null) => {
+export const useProfileByUserId = (userId: string | null | undefined) => {
   return useQuery({
     queryKey: [`use-profile-by-userid-${userId}`],
     queryFn: async () =>
