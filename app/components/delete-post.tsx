@@ -56,7 +56,12 @@ export function DeletePost({ post, children }: DeletePostProps) {
       PostErrorHandler(status)
 
       toast.success('Post deleted.')
+
       queryClient.invalidateQueries({ queryKey: [`post-by-id-${post.id}`] })
+      queryClient.invalidateQueries({
+        queryKey: [`post-by-userId-${post.authorId}`],
+      })
+
       setPost({ selected: null })
       setAction('post')
     } catch (err) {

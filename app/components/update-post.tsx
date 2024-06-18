@@ -55,7 +55,12 @@ export function UpdatePost({ className, post, ...props }: UpdatePostProps) {
       PostErrorHandler(status)
 
       toast.success('Post updated.')
+
       queryClient.invalidateQueries({ queryKey: [`post-by-id-${data?.id}`] })
+      queryClient.invalidateQueries({
+        queryKey: [`post-by-userId-${post.authorId}`],
+      })
+
       setPost({ selected: data ? data.id : null })
     } catch (err) {
       const error = err as { message: string }

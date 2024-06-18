@@ -7,6 +7,7 @@ import { getParsedErrors } from '@/lib/errors/utils'
 import { cn } from '@/lib/utils'
 import { CreatePostSchema, createPostSchema } from '@/lib/validations/post'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -27,6 +28,7 @@ export function AddNewPost({ className, ...props }: AddNewPostProps) {
   const [, setPost] = usePostAtom()
   const [, setAction] = usePostDisplayAction()
   const [accessToken] = useAccessToken()
+  const queryClient = useQueryClient()
 
   const form = useForm<CreatePostSchema>({
     resolver: zodResolver(createPostSchema),
@@ -49,6 +51,11 @@ export function AddNewPost({ className, ...props }: AddNewPostProps) {
       PostErrorHandler(status)
 
       toast.success('Post created.')
+
+      queryClient.invalidateQueries({
+        queryKey: [`post-by-userId-${data?.authorId}`],
+      })
+
       setPost({ selected: data ? data.id : null })
     } catch (err) {
       const error = err as { message: string }
