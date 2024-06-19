@@ -4,12 +4,14 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useAccessToken } from '@/hooks/use-access-token'
 import { useMounted } from '@/hooks/use-mounted'
-import { auth } from '@/lib/actions/auth'
+import { useSeverURLAtom } from '@/hooks/use-server-url'
+import { AuthService } from '@/lib/actions/auth'
 import { cn } from '@/lib/utils'
 import { useNavigate } from '@remix-run/react'
 
 export function LogOutButtons() {
   const [, setAccessToken] = useAccessToken()
+  const [serverURL] = useSeverURLAtom()
   const navigate = useNavigate()
   const mounted = useMounted()
 
@@ -29,7 +31,8 @@ export function LogOutButtons() {
           size="sm"
           className="w-full"
           onClick={() => {
-            auth.signOut()
+            const authService = new AuthService(serverURL)
+            authService.signOut()
             setAccessToken(null)
             setTimeout(() => navigate('/'), 1000)
           }}

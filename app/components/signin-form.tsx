@@ -11,7 +11,8 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useAccessToken } from '@/hooks/use-access-token'
-import { auth } from '@/lib/actions/auth'
+import { useSeverURLAtom } from '@/hooks/use-server-url'
+import { AuthService } from '@/lib/actions/auth'
 import { AuthErrorHandler } from '@/lib/errors/handle-auth-error'
 import { getParsedErrors } from '@/lib/errors/utils'
 import { authSchema } from '@/lib/validations/auth'
@@ -28,8 +29,9 @@ type Inputs = z.infer<typeof authSchema>
 
 export default function SignInForm() {
   const [loading, setLoading] = React.useState(false)
-  const navigate = useNavigate()
   const [, setAccessToken] = useAccessToken()
+  const [serverURL] = useSeverURLAtom()
+  const navigate = useNavigate()
 
   const form = useForm<Inputs>({
     resolver: zodResolver(authSchema),
@@ -41,11 +43,13 @@ export default function SignInForm() {
 
   async function onSubmit(formData: Inputs) {
     setLoading(true)
+    const authService = new AuthService(serverURL)
+
     try {
       const parsed = authSchema.safeParse(formData)
       if (!parsed.success) throw new Error(getParsedErrors(parsed))
 
-      const { status, data } = await auth.signIn({ ...formData })
+      const { status, data } = await authService.signIn({ ...formData })
       AuthErrorHandler(status)
 
       setAccessToken(data ? data.accessToken : null)
