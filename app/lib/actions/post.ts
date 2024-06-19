@@ -11,9 +11,15 @@ const postFetchConfig = {
   headers: { 'Content-Type': 'application/json' },
 } satisfies RequestInit
 
-export const postService = {
-  create: async (formData: Inputs, accessToken: string) => {
-    const response = await fetch('http://localhost:8000/api/post/create', {
+export class PostService {
+  serverURL: string | undefined
+
+  constructor(serverURL: string | undefined) {
+    this.serverURL = serverURL
+  }
+
+  async create(formData: Inputs, accessToken: string) {
+    const response = await fetch(`${this.serverURL}/api/post/create`, {
       ...postFetchConfig,
       headers: {
         ...postFetchConfig.headers,
@@ -22,21 +28,21 @@ export const postService = {
       body: JSON.stringify({ ...formData }),
     })
     return (await response.json()) as HTTPResponse<Post, PostStatusCode>
-  },
+  }
 
-  getById: async (postId: string) => {
-    const response = await fetch(`http://localhost:8000/api/post/id/${postId}`)
+  async getById(postId: string) {
+    const response = await fetch(`${this.serverURL}/api/post/id/${postId}`)
     return (await response.json()) as HTTPResponse<Post, PostStatusCode>
-  },
+  }
 
-  getByUserId: async (userId: string) => {
-    const URL = `http://localhost:8000/api/post/user/${userId}`
+  async getByUserId(userId: string) {
+    const URL = `${this.serverURL}/api/post/user/${userId}`
     const response = await fetch(URL)
     return (await response.json()) as HTTPResponse<Post[], PostStatusCode>
-  },
+  }
 
-  update: async (formData: Partial<Post>, accessToken: string) => {
-    const response = await fetch('http://localhost:8000/api/post/update', {
+  async update(formData: Partial<Post>, accessToken: string) {
+    const response = await fetch(`${this.serverURL}/api/post/update`, {
       ...postFetchConfig,
       headers: {
         ...postFetchConfig.headers,
@@ -45,10 +51,10 @@ export const postService = {
       body: JSON.stringify({ ...formData }),
     })
     return (await response.json()) as HTTPResponse<Post, PostStatusCode>
-  },
+  }
 
-  delete: async ({ id, authorId }: Post, accessToken: string) => {
-    const response = await fetch('http://localhost:8000/api/post/delete', {
+  async delete({ id, authorId }: Post, accessToken: string) {
+    const response = await fetch(`${this.serverURL}/api/post/delete`, {
       ...postFetchConfig,
       headers: {
         ...postFetchConfig.headers,
@@ -57,5 +63,54 @@ export const postService = {
       body: JSON.stringify({ id, authorId }),
     })
     return (await response.json()) as HTTPResponse<void, PostStatusCode>
-  },
+  }
 }
+
+// export const postService = {
+//   create: async (formData: Inputs, accessToken: string) => {
+//     const response = await fetch('http://localhost:8000/api/post/create', {
+//       ...postFetchConfig,
+//       headers: {
+//         ...postFetchConfig.headers,
+//         authorization: `Bearer ${accessToken}`,
+//       },
+//       body: JSON.stringify({ ...formData }),
+//     })
+//     return (await response.json()) as HTTPResponse<Post, PostStatusCode>
+//   },
+
+//   getById: async (postId: string) => {
+//     const response = await fetch(`http://localhost:8000/api/post/id/${postId}`)
+//     return (await response.json()) as HTTPResponse<Post, PostStatusCode>
+//   },
+
+//   getByUserId: async (userId: string) => {
+//     const URL = `http://localhost:8000/api/post/user/${userId}`
+//     const response = await fetch(URL)
+//     return (await response.json()) as HTTPResponse<Post[], PostStatusCode>
+//   },
+
+//   update: async (formData: Partial<Post>, accessToken: string) => {
+//     const response = await fetch('http://localhost:8000/api/post/update', {
+//       ...postFetchConfig,
+//       headers: {
+//         ...postFetchConfig.headers,
+//         authorization: `Bearer ${accessToken}`,
+//       },
+//       body: JSON.stringify({ ...formData }),
+//     })
+//     return (await response.json()) as HTTPResponse<Post, PostStatusCode>
+//   },
+
+//   delete: async ({ id, authorId }: Post, accessToken: string) => {
+//     const response = await fetch('http://localhost:8000/api/post/delete', {
+//       ...postFetchConfig,
+//       headers: {
+//         ...postFetchConfig.headers,
+//         authorization: `Bearer ${accessToken}`,
+//       },
+//       body: JSON.stringify({ id, authorId }),
+//     })
+//     return (await response.json()) as HTTPResponse<void, PostStatusCode>
+//   },
+// }
