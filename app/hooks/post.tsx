@@ -1,6 +1,10 @@
 import { PostService } from '@/lib/actions/post'
 import { Post } from '@/types'
-import { useQuery } from '@tanstack/react-query'
+import {
+  keepPreviousData,
+  useInfiniteQuery,
+  useQuery,
+} from '@tanstack/react-query'
 import { atom, useAtom } from 'jotai'
 import { useSeverURLAtom } from './use-server-url'
 
@@ -16,20 +20,45 @@ export function usePostAtom() {
   return useAtom(configAtom)
 }
 
-export function usePostByUserId(userId: string | undefined) {
+export function usePostByUserId(userId = '', skip = 0, take = 7) {
   const [serverURL] = useSeverURLAtom()
 
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: [`post-by-userId-${userId}`],
-    queryFn: async () => {
+    queryFn: async ({ pageParam }) => {
       const postService = new PostService(serverURL)
-      return userId ? await postService.getByUserId(userId) : null
+      const posts = await postService.getByUserId(userId, pageParam, take)
+      return { ...posts, pageParam: posts.hasNextPage ? posts.skip : null }
     },
-    gcTime: Infinity,
-    staleTime: Infinity,
-    refetchOnWindowFocus: false,
+    placeholderData: keepPreviousData,
+    initialPageParam: skip,
+    getNextPageParam: (lastPage) => {
+      return lastPage.pageParam
+    },
   })
 }
+
+// export function usePostByUserId(
+//   userId: string | undefined,
+//   skip = 0,
+//   take = 7,
+// ) {
+//   const [serverURL] = useSeverURLAtom()
+//   console.log(skip)
+
+//   return useQuery({
+//     queryKey: [`post-by-userId-${userId}`, skip],
+//     queryFn: async () => {
+//       console.log(skip)
+//       const postService = new PostService(serverURL)
+//       return userId ? await postService.getByUserId(userId, skip, take) : null
+//     },
+//     placeholderData: keepPreviousData,
+//     // gcTime: Infinity,
+//     // staleTime: Infinity,
+//     refetchOnWindowFocus: false,
+//   })
+// }
 
 export function usePostById(postId: string | null) {
   const [serverURL] = useSeverURLAtom()
