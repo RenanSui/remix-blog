@@ -10,20 +10,36 @@ const ScrollArea = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root> & {
     orientation?: 'vertical' | 'horizontal'
     scrollBarClassName?: string
+    temporaryRef?: React.RefObject<HTMLDivElement>
   }
->(({ className, children, orientation, scrollBarClassName, ...props }, ref) => (
-  <ScrollAreaPrimitive.Root
-    ref={ref}
-    className={cn('relative overflow-hidden', className)}
-    {...props}
-  >
-    <ScrollAreaPrimitive.Viewport className="size-full rounded-[inherit]">
-      {children}
-    </ScrollAreaPrimitive.Viewport>
-    <ScrollBar orientation={orientation} className={cn(scrollBarClassName)} />
-    <ScrollAreaPrimitive.Corner />
-  </ScrollAreaPrimitive.Root>
-))
+>(
+  (
+    {
+      className,
+      children,
+      orientation,
+      scrollBarClassName,
+      temporaryRef,
+      ...props
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    ref,
+  ) => (
+    <ScrollAreaPrimitive.Root
+      className={cn('relative overflow-hidden', className)}
+      {...props}
+    >
+      <ScrollAreaPrimitive.Viewport
+        ref={temporaryRef}
+        className="size-full rounded-[inherit]"
+      >
+        {children}
+      </ScrollAreaPrimitive.Viewport>
+      <ScrollBar orientation={orientation} className={cn(scrollBarClassName)} />
+      <ScrollAreaPrimitive.Corner />
+    </ScrollAreaPrimitive.Root>
+  ),
+)
 ScrollArea.displayName = ScrollAreaPrimitive.Root.displayName
 
 const ScrollBar = React.forwardRef<
