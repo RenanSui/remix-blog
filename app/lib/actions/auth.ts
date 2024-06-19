@@ -11,26 +11,32 @@ const postFetchConfig = {
   headers: { 'Content-Type': 'application/json' },
 } satisfies RequestInit
 
-export const auth = {
-  signIn: async (formData: Inputs) => {
-    const response = await fetch('http://localhost:8000/api/auth/login', {
+export class AuthService {
+  serverURL: string | undefined
+
+  constructor(serverURL: string | undefined) {
+    this.serverURL = serverURL
+  }
+
+  async signIn(formData: Inputs) {
+    const response = await fetch(`${this.serverURL}/api/auth/login`, {
       ...postFetchConfig,
       body: JSON.stringify({ ...formData }),
     })
     return (await response.json()) as HTTPResponse<Auth, AuthStatusCode>
-  },
+  }
 
-  signUp: async (formData: Inputs) => {
-    const response = await fetch('http://localhost:8000/api/auth/register', {
+  async signUp(formData: Inputs) {
+    const response = await fetch(`${this.serverURL}/api/auth/register`, {
       ...postFetchConfig,
       body: JSON.stringify({ ...formData }),
     })
     return (await response.json()) as HTTPResponse<Auth, AuthStatusCode>
-  },
+  }
 
-  signOut: async () => {
-    await fetch('http://localhost:8000/api/auth/logout', {
+  async signOut() {
+    await fetch(`${this.serverURL}/api/auth/logout`, {
       credentials: 'include',
     })
-  },
+  }
 }
