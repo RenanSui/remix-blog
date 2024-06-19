@@ -4,24 +4,27 @@ import { UpdateProfileSchema } from '../validations/profile'
 
 type UpdateData<T> = Pick<Profile, 'id' | 'userId'> & T
 
-export const profileService = {
-  getMe: async (accessToken: string) => {
-    const response = await fetch('http://localhost:8000/api/profile/me', {
+export class ProfileService {
+  serverURL: string | undefined
+
+  constructor(serverURL: string | undefined) {
+    this.serverURL = serverURL
+  }
+
+  async getMe(accessToken: string | null | undefined) {
+    if (!accessToken) return null
+    const response = await fetch(`${this.serverURL}/api/profile/me`, {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ${accessToken}`,
       },
     })
-    const { data } = (await response.json()) as HTTPResponse<
-      Profile,
-      ProfileStatusCode
-    >
-    return data
-  },
+    return (await response.json()) as HTTPResponse<Profile, ProfileStatusCode>
+  }
 
-  getByUsername: async (id: string) => {
-    const URL = `http://localhost:8000/api/profile/username/${id}`
+  async getByUsername(username: string) {
+    const URL = `${this.serverURL}/api/profile/username/${username}`
     const response = await fetch(URL, {
       credentials: 'include',
       headers: {
@@ -29,10 +32,10 @@ export const profileService = {
       },
     })
     return (await response.json()) as HTTPResponse<Profile, ProfileStatusCode>
-  },
+  }
 
-  getByUserId: async (userId: string) => {
-    const URL = `http://localhost:8000/api/profile/id/${userId}`
+  async getByUserId(userId: string) {
+    const URL = `${this.serverURL}/api/profile/id/${userId}`
     const response = await fetch(URL, {
       credentials: 'include',
       headers: {
@@ -40,13 +43,13 @@ export const profileService = {
       },
     })
     return (await response.json()) as HTTPResponse<Profile, ProfileStatusCode>
-  },
+  }
 
-  updateProfile: async (
+  async updateProfile(
     { name, userId, id }: UpdateData<Pick<UpdateProfileSchema, 'name'>>,
     accessToken: string,
-  ) => {
-    const response = await fetch('http://localhost:8000/api/profile/update', {
+  ) {
+    const response = await fetch(`${this.serverURL}/api/profile/update`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -56,14 +59,14 @@ export const profileService = {
       body: JSON.stringify({ name, userId, id }),
     })
     return (await response.json()) as HTTPResponse<void, ProfileStatusCode>
-  },
+  }
 
-  updateUsername: async (
+  async updateUsername(
     { username, userId, id }: UpdateData<Pick<UpdateProfileSchema, 'username'>>,
     accessToken: string,
-  ) => {
+  ) {
     const response = await fetch(
-      'http://localhost:8000/api/profile/update/username',
+      `${this.serverURL}/api/profile/update/username`,
       {
         method: 'POST',
         credentials: 'include',
@@ -75,14 +78,14 @@ export const profileService = {
       },
     )
     return (await response.json()) as HTTPResponse<void, ProfileStatusCode>
-  },
+  }
 
-  updateAvatar: async (
+  async updateAvatar(
     { image, userId, id }: UpdateData<Pick<UpdateProfileSchema, 'image'>>,
     accessToken: string,
-  ) => {
+  ) {
     const response = await fetch(
-      'http://localhost:8000/api/profile/update/avatar',
+      `${this.serverURL}/api/profile/update/avatar`,
       {
         method: 'POST',
         credentials: 'include',
@@ -94,24 +97,21 @@ export const profileService = {
       },
     )
     return (await response.json()) as HTTPResponse<void, ProfileStatusCode>
-  },
+  }
 
-  updateBio: async (
+  async updateBio(
     { bio, userId, id }: UpdateData<Pick<UpdateProfileSchema, 'bio'>>,
     accessToken: string,
-  ) => {
-    const response = await fetch(
-      'http://localhost:8000/api/profile/update/bio',
-      {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({ bio, userId, id }),
+  ) {
+    const response = await fetch(`${this.serverURL}/api/profile/update/bio`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${accessToken}`,
       },
-    )
+      body: JSON.stringify({ bio, userId, id }),
+    })
     return (await response.json()) as HTTPResponse<void, ProfileStatusCode>
-  },
+  }
 }
