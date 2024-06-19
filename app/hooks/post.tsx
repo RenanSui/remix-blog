@@ -38,28 +38,6 @@ export function usePostByUserId(userId = '', skip = 0, take = 7) {
   })
 }
 
-// export function usePostByUserId(
-//   userId: string | undefined,
-//   skip = 0,
-//   take = 7,
-// ) {
-//   const [serverURL] = useSeverURLAtom()
-//   console.log(skip)
-
-//   return useQuery({
-//     queryKey: [`post-by-userId-${userId}`, skip],
-//     queryFn: async () => {
-//       console.log(skip)
-//       const postService = new PostService(serverURL)
-//       return userId ? await postService.getByUserId(userId, skip, take) : null
-//     },
-//     placeholderData: keepPreviousData,
-//     // gcTime: Infinity,
-//     // staleTime: Infinity,
-//     refetchOnWindowFocus: false,
-//   })
-// }
-
 export function usePostById(postId: string | null) {
   const [serverURL] = useSeverURLAtom()
 
