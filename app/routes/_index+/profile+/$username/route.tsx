@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { usePostByUserId } from '@/hooks/post'
-import { profileService } from '@/lib/actions/profile'
+import { ProfileService } from '@/lib/actions/profile'
 import { HTPPErrorMessages } from '@/lib/errors/handle-auth-error'
 import { sortPostsByDate } from '@/lib/utils'
 import { Post } from '@/types'
@@ -21,13 +21,12 @@ export async function loader({ params }: LoaderFunctionArgs) {
   const username = params.username
   if (!username) return redirect('/')
 
+  const profileService = new ProfileService(process.env.SERVER_URL)
   const { data: profile, status } = await profileService.getByUsername(username)
+
   if (!profile) {
     const message = HTPPErrorMessages[status]
-    throw new Response(null, {
-      status: 404,
-      statusText: message || 'An error has occured',
-    })
+    throw new Response(null, { status: 404, statusText: message })
   }
 
   return json({ profile })

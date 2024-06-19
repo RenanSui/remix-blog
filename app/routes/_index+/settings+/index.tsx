@@ -2,7 +2,7 @@ import { PageHeader, PageHeaderHeading } from '@/components/page-header'
 import { ProfileForm } from '@/components/profile-form'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
-import { profileService } from '@/lib/actions/profile'
+import { ProfileService } from '@/lib/actions/profile'
 import { getCookie } from '@/lib/utils'
 import { LoaderFunctionArgs, json, redirect } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
@@ -12,7 +12,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const accessToken = getCookie('accessToken', cookieHeader)
   if (!accessToken) return redirect('/signin')
 
-  const profile = accessToken ? await profileService.getMe(accessToken) : null
+  const profileService = new ProfileService(process.env.SERVER_URL)
+  const profile = (await profileService.getMe(accessToken))?.data || null
   if (!profile) return redirect('/signin')
 
   return json({ profile })

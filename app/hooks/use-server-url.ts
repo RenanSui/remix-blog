@@ -1,7 +1,7 @@
 import { atom, useAtom } from 'jotai'
 
-export const serverUrlAtom = atom<string | undefined>(undefined)
+export const serverURLAtom = atom<string | undefined>(undefined)
 
-export function useSeverUrlAtom() {
-  return useAtom(serverUrlAtom)
+export function useSeverURLAtom() {
+  return useAtom(serverURLAtom)
 }

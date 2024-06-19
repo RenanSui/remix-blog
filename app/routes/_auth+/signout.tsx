@@ -5,7 +5,7 @@ import {
   PageHeaderHeading,
 } from '@/components/page-header'
 import { Shell } from '@/components/shell'
-import { profileService } from '@/lib/actions/profile'
+import { ProfileService } from '@/lib/actions/profile'
 import { getCookie } from '@/lib/utils'
 import {
   LoaderFunctionArgs,
@@ -16,7 +16,10 @@ import {
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''
   const accessToken = getCookie('accessToken', cookieHeader)
-  const profile = accessToken ? await profileService.getMe(accessToken) : null
+
+  const profileService = new ProfileService(process.env.SERVER_URL)
+  const profile = (await profileService.getMe(accessToken))?.data || null
+
   return !profile ? redirect('/signin') : null
 }
 

@@ -11,7 +11,9 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useAccessToken } from '@/hooks/use-access-token'
-import { profileService } from '@/lib/actions/profile'
+// import { profileService } from '@/lib/actions/profile'
+import { useSeverURLAtom } from '@/hooks/use-server-url'
+import { ProfileService } from '@/lib/actions/profile'
 import { ProfileErrorHandler } from '@/lib/errors/handle-profile-error'
 import { cn } from '@/lib/utils'
 import {
@@ -21,12 +23,12 @@ import {
 import { Profile } from '@/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@remix-run/react'
+import { useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import * as z from 'zod'
 import { Button } from './ui/button'
 import { Textarea } from './ui/textarea'
-import { useQueryClient } from '@tanstack/react-query'
 
 type ProfileFormProps = {
   profile: Profile | null
@@ -34,6 +36,7 @@ type ProfileFormProps = {
 
 export const ProfileForm = ({ profile }: ProfileFormProps) => {
   const [accessToken] = useAccessToken()
+  const [serverUrl] = useSeverURLAtom()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
 
@@ -55,8 +58,10 @@ export const ProfileForm = ({ profile }: ProfileFormProps) => {
     bio,
     image,
   }: UpdateProfileSchema) => {
-    const UpdateData = { id: profile.id, userId: profile.userId }
     if (!accessToken) return null
+
+    const UpdateData = { id: profile.id, userId: profile.userId }
+    const profileService = new ProfileService(serverUrl)
 
     if (profile.name !== name) {
       try {
