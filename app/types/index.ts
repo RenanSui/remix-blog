@@ -42,6 +42,8 @@ export type HTTPResponse<T = void, B = void> = {
   data: T | null
   message: ReasonPhrase
   status: B
+  hasNextPage: boolean
+  skip: number
 }
 
 export type Auth = { accessToken: string }
