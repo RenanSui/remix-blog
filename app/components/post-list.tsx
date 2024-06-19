@@ -3,6 +3,7 @@ import { usePostDisplayAction } from '@/hooks/use-post-display-action'
 import { useProfileByUserId } from '@/hooks/use-profile'
 import { cn } from '@/lib/utils'
 import { Post } from '@/types'
+import { Link } from '@remix-run/react'
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 
@@ -53,8 +54,13 @@ const PostItem = ({ post }: { post: Post }) => {
                   .join('')}
               </AvatarFallback>
             </Avatar>
-            <div className="grid ">
-              <div className="font-semibold">{profile?.name}</div>
+            <div className="flex gap-2">
+              <Link
+                className="font-semibold hover:underline z-50 relative"
+                to={`/profile/${profile?.username}`}
+              >
+                {profile?.name}
+              </Link>
               <div className="font-semibold text-muted-foreground/50">
                 @{profile?.username}
               </div>
@@ -74,9 +80,7 @@ const PostItem = ({ post }: { post: Post }) => {
           </div>
         </div>
       </div>
-      <div className="line-clamp-2 text-xs text-muted-foreground">
-        {post.body.substring(0, 300)}
-      </div>
+      <div className="line-clamp-2">{post.body.substring(0, 300)}</div>
     </button>
   )
 }
