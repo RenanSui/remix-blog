@@ -1,7 +1,6 @@
 import { usePostAtom } from '@/hooks/post'
 import { useAccessToken } from '@/hooks/use-access-token'
 import { usePostDisplayAction } from '@/hooks/use-post-display-action'
-import { postService } from '@/lib/actions/post'
 import { PostErrorHandler } from '@/lib/errors/handle-post-error'
 import { getParsedErrors } from '@/lib/errors/utils'
 import { cn } from '@/lib/utils'
@@ -22,6 +21,8 @@ import {
   FormMessage,
 } from './ui/form'
 import { Textarea } from './ui/textarea'
+import { useSeverURLAtom } from '@/hooks/use-server-url'
+import { PostService } from '@/lib/actions/post'
 
 type UpdatePostProps = Omit<React.ComponentPropsWithRef<'form'>, 'onSubmit'> & {
   post: Post
@@ -30,6 +31,7 @@ type UpdatePostProps = Omit<React.ComponentPropsWithRef<'form'>, 'onSubmit'> & {
 export function UpdatePost({ className, post, ...props }: UpdatePostProps) {
   const [, setAction] = usePostDisplayAction()
   const [accessToken] = useAccessToken()
+  const [serverURL] = useSeverURLAtom()
   const queryClient = useQueryClient()
   const [, setPost] = usePostAtom()
 
@@ -50,6 +52,7 @@ export function UpdatePost({ className, post, ...props }: UpdatePostProps) {
       if (!parsed.success) throw new Error(getParsedErrors(parsed))
 
       const FormData = { ...post, ...formData }
+      const postService = new PostService(serverURL)
       const { data, status } = await postService.update(FormData, accessToken)
 
       PostErrorHandler(status)

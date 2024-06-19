@@ -1,7 +1,6 @@
 import { usePostAtom } from '@/hooks/post'
 import { useAccessToken } from '@/hooks/use-access-token'
 import { usePostDisplayAction } from '@/hooks/use-post-display-action'
-import { postService } from '@/lib/actions/post'
 import { PostErrorHandler } from '@/lib/errors/handle-post-error'
 import { getParsedErrors } from '@/lib/errors/utils'
 import { cn } from '@/lib/utils'
@@ -21,14 +20,17 @@ import {
   FormMessage,
 } from './ui/form'
 import { Textarea } from './ui/textarea'
+import { PostService } from '@/lib/actions/post'
+import { useSeverURLAtom } from '@/hooks/use-server-url'
 
 type AddNewPostProps = Omit<React.ComponentPropsWithRef<'form'>, 'onSubmit'>
 
 export function AddNewPost({ className, ...props }: AddNewPostProps) {
-  const [, setPost] = usePostAtom()
   const [, setAction] = usePostDisplayAction()
   const [accessToken] = useAccessToken()
+  const [serverURL] = useSeverURLAtom()
   const queryClient = useQueryClient()
+  const [, setPost] = usePostAtom()
 
   const form = useForm<CreatePostSchema>({
     resolver: zodResolver(createPostSchema),
@@ -46,6 +48,7 @@ export function AddNewPost({ className, ...props }: AddNewPostProps) {
       const parsed = createPostSchema.safeParse(formData)
       if (!parsed.success) throw new Error(getParsedErrors(parsed))
 
+      const postService = new PostService(serverURL)
       const { data, status } = await postService.create(formData, accessToken)
 
       PostErrorHandler(status)

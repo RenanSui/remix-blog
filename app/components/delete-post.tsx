@@ -24,13 +24,14 @@ import { usePostAtom } from '@/hooks/post'
 import { useAccessToken } from '@/hooks/use-access-token'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { usePostDisplayAction } from '@/hooks/use-post-display-action'
-import { postService } from '@/lib/actions/post'
 import { PostErrorHandler } from '@/lib/errors/handle-post-error'
 import { Post } from '@/types'
 import { useQueryClient } from '@tanstack/react-query'
 import * as React from 'react'
 import { toast } from 'sonner'
 import { Icons } from './icon'
+import { useSeverURLAtom } from '@/hooks/use-server-url'
+import { PostService } from '@/lib/actions/post'
 
 interface DeletePostProps
   extends React.ComponentPropsWithoutRef<typeof Dialog> {
@@ -42,6 +43,7 @@ export function DeletePost({ post, children }: DeletePostProps) {
   const [loading, setLoading] = React.useState(false)
   const [, setAction] = usePostDisplayAction()
   const [accessToken] = useAccessToken()
+  const [serverURL] = useSeverURLAtom()
   const queryClient = useQueryClient()
   const [, setPost] = usePostAtom()
 
@@ -51,6 +53,7 @@ export function DeletePost({ post, children }: DeletePostProps) {
 
     setLoading(true)
     try {
+      const postService = new PostService(serverURL)
       const { status } = await postService.delete(post, accessToken)
 
       PostErrorHandler(status)
