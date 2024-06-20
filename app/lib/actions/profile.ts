@@ -23,6 +23,12 @@ export class ProfileService {
     return (await response.json()) as HTTPResponse<Profile, ProfileStatusCode>
   }
 
+  async getAll(skip = 0, take = 7) {
+    const URL = `${this.serverURL}/api/profile?skip=${skip}&take=${take}`
+    const response = await fetch(URL)
+    return (await response.json()) as HTTPResponse<Profile[], ProfileStatusCode>
+  }
+
   async getByUsername(username: string) {
     const URL = `${this.serverURL}/api/profile/username/${username}`
     const response = await fetch(URL, {
