@@ -38,6 +38,30 @@ export function usePostAll(skip = 0, take = 7) {
   })
 }
 
+export function usePostBySearch(
+  searchQuery: string | null,
+  skip = 0,
+  take = 7,
+) {
+  const [serverURL] = useSeverURLAtom()
+
+  return useInfiniteQuery({
+    queryKey: [`post-by-search-${searchQuery}`],
+    queryFn: async ({ pageParam }) => {
+      const postService = new PostService(serverURL)
+      const posts = searchQuery
+        ? await postService.getBySearch(searchQuery, pageParam, take)
+        : null
+      return { ...posts, pageParam: posts?.hasNextPage ? posts.skip : null }
+    },
+    placeholderData: keepPreviousData,
+    initialPageParam: skip,
+    getNextPageParam: (lastPage) => {
+      return lastPage.pageParam
+    },
+  })
+}
+
 export function usePostByUserId(userId = '', skip = 0, take = 7) {
   const [serverURL] = useSeverURLAtom()
 
