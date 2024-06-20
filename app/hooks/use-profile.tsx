@@ -1,5 +1,9 @@
 import { ProfileService } from '@/lib/actions/profile'
-import { useQuery } from '@tanstack/react-query'
+import {
+  keepPreviousData,
+  useInfiniteQuery,
+  useQuery,
+} from '@tanstack/react-query'
 import { useSeverURLAtom } from './use-server-url'
 
 export const useProfileByUserId = (userId: string | null | undefined) => {
@@ -14,5 +18,23 @@ export const useProfileByUserId = (userId: string | null | undefined) => {
     gcTime: Infinity,
     staleTime: Infinity,
     refetchOnWindowFocus: false,
+  })
+}
+
+export const useProfileAll = (skip = 0, take = 7) => {
+  const [serverURL] = useSeverURLAtom()
+
+  return useInfiniteQuery({
+    queryKey: [`profile-all`],
+    queryFn: async ({ pageParam }) => {
+      const profileService = new ProfileService(serverURL)
+      const posts = await profileService.getAll(pageParam, take)
+      return { ...posts, pageParam: posts.hasNextPage ? posts.skip : null }
+    },
+    placeholderData: keepPreviousData,
+    initialPageParam: skip,
+    getNextPageParam: (lastPage) => {
+      return lastPage.pageParam
+    },
   })
 }
