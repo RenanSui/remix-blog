@@ -4,9 +4,12 @@ import { Skeleton } from '../ui/skeleton'
 export function PostDisplaySkeleton() {
   return (
     <div className="flex h-full flex-col">
-      <div className="p-2 gap-2 flex items-center justify-end">
-        <Skeleton className="size-9" />
-        <Separator orientation="vertical" className="mx-1 h-6" />
+      <div className="p-2 gap-2 flex items-center justify-between">
+        <div className="flex gap-2">
+          <Skeleton className="size-9" />
+          <Skeleton className="size-9" />
+          <Skeleton className="size-9" />
+        </div>
         <Skeleton className="size-9" />
       </div>
       <Separator />
