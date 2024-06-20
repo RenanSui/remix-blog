@@ -36,6 +36,12 @@ export class PostService {
     return (await response.json()) as HTTPResponse<Post[], PostStatusCode>
   }
 
+  async getBySearch(searchQuery: string, skip = 0, take = 7) {
+    const URL = `${this.serverURL}/api/post/search?searchQuery=${searchQuery}&skip=${skip}&take=${take}`
+    const response = await fetch(URL)
+    return (await response.json()) as HTTPResponse<Post[], PostStatusCode>
+  }
+
   async getById(postId: string) {
     const response = await fetch(`${this.serverURL}/api/post/id/${postId}`)
     return (await response.json()) as HTTPResponse<Post, PostStatusCode>
