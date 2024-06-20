@@ -18,7 +18,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const profileService = new ProfileService(process.env.SERVER_URL)
   const data = profileService.getMe(accessToken)
-  if (!(await data)?.data) return redirect('/signin')
 
   return defer({ data })
 }
@@ -42,11 +41,9 @@ export default function SettingsPage() {
         <React.Suspense fallback={<SettingsSkeleton />}>
           <Await resolve={data} errorElement={<p>Error loading settings</p>}>
             {(data) => {
-              const profile = data?.data
-
-              return profile ? (
+              return data?.data ? (
                 <div className="p-4">
-                  <ProfileForm profile={profile} />
+                  <ProfileForm profile={data.data} />
                 </div>
               ) : (
                 <div className="p-8 flex flex-col items-center gap-4">
