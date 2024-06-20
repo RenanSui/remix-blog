@@ -1,5 +1,3 @@
-'use client'
-
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -24,14 +22,14 @@ import { usePostAtom } from '@/hooks/post'
 import { useAccessToken } from '@/hooks/use-access-token'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { usePostDisplayAction } from '@/hooks/use-post-display-action'
+import { useSeverURLAtom } from '@/hooks/use-server-url'
+import { PostService } from '@/lib/actions/post'
 import { PostErrorHandler } from '@/lib/errors/handle-post-error'
 import { Post } from '@/types'
 import { useQueryClient } from '@tanstack/react-query'
 import * as React from 'react'
 import { toast } from 'sonner'
 import { Icons } from './icon'
-import { useSeverURLAtom } from '@/hooks/use-server-url'
-import { PostService } from '@/lib/actions/post'
 
 interface DeletePostProps
   extends React.ComponentPropsWithoutRef<typeof Dialog> {

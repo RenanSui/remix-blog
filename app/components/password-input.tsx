@@ -1,5 +1,3 @@
-'use client'
-
 import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons'
 import * as React from 'react'
 
