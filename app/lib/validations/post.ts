@@ -5,3 +5,9 @@ export const createPostSchema = z.object({
 })
 
 export type CreatePostSchema = z.infer<typeof createPostSchema>
+
+export const searchPostSchema = z.object({
+  searchQuery: z.string().min(1, { message: 'Search is required' }),
+})
+
+export type SearchPostSchema = z.infer<typeof searchPostSchema>
