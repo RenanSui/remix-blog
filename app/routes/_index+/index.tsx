@@ -9,6 +9,7 @@ import { usePostAll } from '@/hooks/post'
 import { useMounted } from '@/hooks/use-mounted'
 import { debounce } from '@/lib/utils'
 import { type MetaFunction } from '@remix-run/node'
+import { useNavigate } from '@remix-run/react'
 import * as React from 'react'
 
 export const meta: MetaFunction = () => {
@@ -22,6 +23,8 @@ export default function Index() {
   const mounted = useMounted()
   const scrollRef = React.useRef<HTMLDivElement>(null)
   const { data, ...reactQuery } = usePostAll(0, 10)
+  const [query, setQuery] = React.useState('')
+  const navigate = useNavigate()
 
   const handleScroll = debounce((e: Event) => {
     const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLElement
@@ -48,10 +51,23 @@ export default function Index() {
         </PageHeader>
         <Separator />
         <div className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <form className="p-4">
+          <form
+            className="p-4"
+            onSubmit={(e) => {
+              e.preventDefault()
+              navigate(`search?searchQuery=${query}`, { replace: false })
+            }}
+          >
             <div className="relative">
-              <Icons.search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search" className="pl-8" />
+              <button type="submit" className="absolute">
+                <Icons.search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              </button>
+              <Input
+                placeholder="Search"
+                className="pl-8"
+                name="searchQuery"
+                onChange={(e) => setQuery(e.target.value)}
+              />
             </div>
           </form>
 
