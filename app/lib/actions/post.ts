@@ -30,6 +30,12 @@ export class PostService {
     return (await response.json()) as HTTPResponse<Post, PostStatusCode>
   }
 
+  async getAll(skip = 0, take = 7) {
+    const URL = `${this.serverURL}/api/post?skip=${skip}&take=${take}`
+    const response = await fetch(URL)
+    return (await response.json()) as HTTPResponse<Post[], PostStatusCode>
+  }
+
   async getById(postId: string) {
     const response = await fetch(`${this.serverURL}/api/post/id/${postId}`)
     return (await response.json()) as HTTPResponse<Post, PostStatusCode>
