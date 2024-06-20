@@ -20,6 +20,24 @@ export function usePostAtom() {
   return useAtom(configAtom)
 }
 
+export function usePostAll(skip = 0, take = 7) {
+  const [serverURL] = useSeverURLAtom()
+
+  return useInfiniteQuery({
+    queryKey: [`posts`],
+    queryFn: async ({ pageParam }) => {
+      const postService = new PostService(serverURL)
+      const posts = await postService.getAll(pageParam, take)
+      return { ...posts, pageParam: posts.hasNextPage ? posts.skip : null }
+    },
+    placeholderData: keepPreviousData,
+    initialPageParam: skip,
+    getNextPageParam: (lastPage) => {
+      return lastPage.pageParam
+    },
+  })
+}
+
 export function usePostByUserId(userId = '', skip = 0, take = 7) {
   const [serverURL] = useSeverURLAtom()
 
