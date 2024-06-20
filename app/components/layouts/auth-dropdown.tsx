@@ -85,11 +85,29 @@ export function AuthDropdown({
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-60 ml-2" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{profile.name}</p>
-            <p className="text-xs leading-none text-neutral-500">
-              {profile.username}
-            </p>
+          <div className="flex gap-2 items-center">
+            {profile?.image ? (
+              <Avatar className="size-4">
+                <AvatarImage
+                  src={profile?.image}
+                  alt={`${profile?.username}'s profile picture.`}
+                />
+                <AvatarFallback>
+                  {profile.name
+                    .split(' ')
+                    .map((chunk) => chunk[0])
+                    .join('')}
+                </AvatarFallback>
+              </Avatar>
+            ) : (
+              <Icons.logo className="mr-1" />
+            )}
+            <div className="flex flex-col space-y-1">
+              <p className="text-sm font-medium leading-none">{profile.name}</p>
+              <p className="text-xs leading-none text-neutral-500">
+                {profile.username}
+              </p>
+            </div>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
