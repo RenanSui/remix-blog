@@ -35,16 +35,12 @@ export default function SearchPage() {
     return () => main.removeEventListener('scroll', handleScroll)
   }, [handleScroll])
 
-  // React.useEffect(() => {
-  //   console.log(debouncedQuery)
-  // }, [debouncedQuery])
-
   return (
     <main>
       <ScrollArea temporaryRef={scrollRef} className="overflow-y-auto h-screen">
         <PageHeader as="header" className="px-4 py-[15px]">
           <PageHeaderHeading className="text-xl md:text-xl">
-            Home
+            Search
           </PageHeaderHeading>
         </PageHeader>
         <Separator />
