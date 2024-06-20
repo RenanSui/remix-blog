@@ -25,7 +25,7 @@ export function ProfileBanner({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn('w-full h-[200px] bg-zinc-800', className)} {...props} />
+    <div className={cn('w-full h-[200px] bg-accent', className)} {...props} />
   )
 }
 
