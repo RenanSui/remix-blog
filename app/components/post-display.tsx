@@ -98,7 +98,7 @@ function PostDisplayHeader({ post, profile, children }: PostDisplayHeader) {
             <TooltipContent>Add New</TooltipContent>
           </Tooltip>
         )}
-        {post?.authorId === profile?.userId && (
+        {profile && post && profile.userId === post.authorId && (
           <Tooltip>
             <TooltipTrigger asChild>
               <TabsTrigger
