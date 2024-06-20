@@ -12,7 +12,7 @@ export const sidebar: Sidebar = {
       title: 'Search',
       href: '/search',
       icon: 'search',
-      disabled: true,
+      disabled: false,
     },
     {
       title: 'Social',
