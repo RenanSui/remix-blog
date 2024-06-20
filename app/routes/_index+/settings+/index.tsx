@@ -4,6 +4,7 @@ import { ProfileForm } from '@/components/profile-form'
 import { buttonVariants } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
+import { useMounted } from '@/hooks/use-mounted'
 import { ProfileService } from '@/lib/actions/profile'
 import { cn, getCookie } from '@/lib/utils'
 import { LoaderFunctionArgs, defer, redirect } from '@remix-run/node'
@@ -24,8 +25,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function SettingsPage() {
   const { data } = useLoaderData<typeof loader>()
+  const mounted = useMounted()
 
-  return (
+  return mounted ? (
     <main>
       <ScrollArea className="overflow-y-auto h-screen">
         <PageHeader
@@ -62,5 +64,7 @@ export default function SettingsPage() {
         </React.Suspense>
       </ScrollArea>
     </main>
+  ) : (
+    <SettingsSkeleton />
   )
 }
