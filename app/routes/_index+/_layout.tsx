@@ -63,7 +63,7 @@ export default function Layout() {
           isCollapsed={isCollapsed}
           setIsCollapsed={setIsCollapsed}
           leftSidebar={<SiteSidebarSkeleton isCollapsed={isCollapsed} />}
-          page={null}
+          page={<Outlet />}
           rightSidebar={<PostDisplaySkeleton />}
         />
       )}
