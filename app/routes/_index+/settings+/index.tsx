@@ -1,11 +1,14 @@
+import { SettingsSkeleton } from '@/components/loadings/settings-skeleton'
 import { PageHeader, PageHeaderHeading } from '@/components/page-header'
 import { ProfileForm } from '@/components/profile-form'
+import { buttonVariants } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { ProfileService } from '@/lib/actions/profile'
-import { getCookie } from '@/lib/utils'
-import { LoaderFunctionArgs, json, redirect } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { cn, getCookie } from '@/lib/utils'
+import { LoaderFunctionArgs, defer, redirect } from '@remix-run/node'
+import { Await, Link, useLoaderData } from '@remix-run/react'
+import * as React from 'react'
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''
@@ -13,14 +16,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
   if (!accessToken) return redirect('/signin')
 
   const profileService = new ProfileService(process.env.SERVER_URL)
-  const profile = (await profileService.getMe(accessToken))?.data || null
-  if (!profile) return redirect('/signin')
+  const data = profileService.getMe(accessToken)
+  if (!(await data)?.data) return redirect('/signin')
 
-  return json({ profile })
+  return defer({ data })
 }
 
-export default function SettingsIndex() {
-  const { profile } = useLoaderData<typeof loader>()
+export default function SettingsPage() {
+  const { data } = useLoaderData<typeof loader>()
 
   return (
     <main>
@@ -34,9 +37,29 @@ export default function SettingsIndex() {
           </PageHeaderHeading>
         </PageHeader>
         <Separator />
-        <div className="p-4">
-          <ProfileForm profile={profile} />
-        </div>
+        <React.Suspense fallback={<SettingsSkeleton />}>
+          <Await resolve={data} errorElement={<p>Error loading settings</p>}>
+            {(data) => {
+              const profile = data?.data
+
+              return profile ? (
+                <div className="p-4">
+                  <ProfileForm profile={profile} />
+                </div>
+              ) : (
+                <div className="p-8 flex flex-col items-center gap-4">
+                  Sign in to modify your settings.
+                  <Link
+                    to="/signin"
+                    className={cn(buttonVariants({ size: 'sm' }))}
+                  >
+                    Sign In
+                  </Link>
+                </div>
+              )
+            }}
+          </Await>
+        </React.Suspense>
       </ScrollArea>
     </main>
   )
