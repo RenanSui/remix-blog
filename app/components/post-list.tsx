@@ -5,13 +5,14 @@ import { cn } from '@/lib/utils'
 import { Post } from '@/types'
 import { Link } from '@remix-run/react'
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
+import * as React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 
-type PostListProps = { items: Post[] }
+type PostListProps = React.HTMLAttributes<HTMLDivElement> & { items: Post[] }
 
-export function PostList({ items }: PostListProps) {
+export function PostList({ items, className }: PostListProps) {
   return (
-    <div className="flex flex-col gap-2 p-4 pt-0">
+    <div className={cn('flex flex-col gap-2 p-4 pt-0', className)}>
       {items.map((item) => (
         <PostItem key={item.id} post={item} />
       ))}
