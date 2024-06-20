@@ -13,7 +13,21 @@ export function PostDisplaySkeleton() {
         <Skeleton className="size-9" />
       </div>
       <Separator />
-      <Skeleton className="h-9 w-56 self-center mt-8" />
+      <div className="">
+        <div className="flex items-start gap-4 text-sm p-4">
+          <Skeleton className="rounded-full size-10" />
+          <div className="grid space-y-1">
+            <Skeleton className="h-4 w-36" />
+            <Skeleton className="h-4 w-20" />
+          </div>
+        </div>
+        <Separator />
+        <div className="px-4">
+          <Skeleton className="h-6 w-full mt-4" />
+          <Skeleton className="h-6 w-full my-1" />
+          <Skeleton className="h-6 w-full my-1" />
+        </div>
+      </div>
     </div>
   )
 }
