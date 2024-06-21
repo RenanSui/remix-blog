@@ -1,6 +1,25 @@
 import { Icons } from '@/components/icon'
 import { siteConfig } from '@/config/site'
+import { getSidebarCookies } from '@/cookies.server'
+import { ProfileService } from '@/lib/actions/profile'
+import { getCookie } from '@/lib/utils'
 import { Link, Outlet } from '@remix-run/react'
+import { LoaderFunctionArgs, json } from '@vercel/remix'
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const cookieHeader = request.headers.get('Cookie') ?? ''
+  const accessToken = getCookie('accessToken', cookieHeader)
+  const serverURL = process.env.SERVER_URL
+  const profileService = new ProfileService(serverURL)
+  const profile = (await profileService.getMe(accessToken))?.data || null
+  const { sidebarCookies, headers } = await getSidebarCookies(cookieHeader)
+  const { collapsed, layout } = sidebarCookies
+
+  return json(
+    { collapsed, layout, profile, accessToken, serverURL, cookieHeader },
+    { headers },
+  )
+}
 
 export default function Layout() {
   return (
