@@ -4,16 +4,17 @@ import { ProfileForm } from '@/components/profile-form'
 import { buttonVariants } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
+import { accessTokenCookie } from '@/cookies.server'
 import { useMounted } from '@/hooks/use-mounted'
 import { ProfileService } from '@/lib/actions/profile'
-import { cn, getCookie } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import { Await, Link, useLoaderData } from '@remix-run/react'
 import { defer, redirect, type LoaderFunctionArgs } from '@vercel/remix'
 import * as React from 'react'
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''
-  const accessToken = getCookie('accessToken', cookieHeader)
+  const accessToken: string | null = await accessTokenCookie.parse(cookieHeader)
   if (!accessToken) return redirect('/signin')
 
   const profileService = new ProfileService(process.env.SERVER_URL)
