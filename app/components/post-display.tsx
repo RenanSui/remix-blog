@@ -57,9 +57,14 @@ export function PostDisplay({ profile }: PostDisplayProps) {
           ) : (
             // eslint-disable-next-line no-use-before-define
             <PostDisplayHeader post={null} profile={profile}>
-              <p className="p-8 text-center text-muted-foreground">
-                No message selected
-              </p>
+              <TabsContent value="add">
+                <PostDisplayAdd profile={profile} />
+              </TabsContent>
+              <TabsContent value="post">
+                <p className="p-8 text-center text-muted-foreground">
+                  No message selected
+                </p>
+              </TabsContent>
             </PostDisplayHeader>
           )
         }
