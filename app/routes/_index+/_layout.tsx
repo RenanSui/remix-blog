@@ -4,7 +4,7 @@ import { PostDisplaySkeleton } from '@/components/loadings/post-display-skeleton
 import { SiteSidebarSkeleton } from '@/components/loadings/site-sidebar-skeleton'
 import { PostDisplay } from '@/components/post-display'
 import { accessTokenCookie, getSidebarCookies } from '@/cookies.server'
-import { accessTokenAtom } from '@/hooks/use-access-token'
+import { accessTokenAtom, useAccessToken } from '@/hooks/use-access-token'
 import { useMounted } from '@/hooks/use-mounted'
 import { serverURLAtom } from '@/hooks/use-server-url'
 import { ProfileService } from '@/lib/actions/profile'
@@ -37,8 +37,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function Layout() {
   const data = useLoaderData<typeof loader>()
   const mounted = useMounted()
-
-  console.log({ data })
+  const [, setAccessToken] = useAccessToken()
 
   const defaultLayout = data.layout?.value || [20, 40, 40]
   const defaultCollapsed = data.collapsed?.value || false
@@ -46,6 +45,11 @@ export default function Layout() {
 
   useHydrateAtoms([[accessTokenAtom, data.accessToken]])
   useHydrateAtoms([[serverURLAtom, data.serverURL]])
+
+  React.useEffect(() => {
+    const initialLoad = () => setAccessToken(data.accessToken)
+    initialLoad()
+  }, [data.accessToken, setAccessToken])
 
   return (
     <div className="max-w-7xl mx-auto border-x">
