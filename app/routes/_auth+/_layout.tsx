@@ -8,10 +8,22 @@ import { LoaderFunctionArgs, json } from '@vercel/remix'
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''
+
+  console.log({ cookieHeader })
+
   const accessToken = getCookie('accessToken', cookieHeader)
+
+  console.log({ accessToken })
+
   const serverURL = process.env.SERVER_URL
+
+  console.log({ serverURL })
+
   const profileService = new ProfileService(serverURL)
   const profile = (await profileService.getMe(accessToken))?.data || null
+
+  console.log({ profile })
+
   const { sidebarCookies, headers } = await getSidebarCookies(cookieHeader)
   const { collapsed, layout } = sidebarCookies
 

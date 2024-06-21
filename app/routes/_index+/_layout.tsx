@@ -9,19 +9,29 @@ import { useMounted } from '@/hooks/use-mounted'
 import { serverURLAtom } from '@/hooks/use-server-url'
 import { ProfileService } from '@/lib/actions/profile'
 import { getCookie } from '@/lib/utils'
-import { Outlet, useLoaderData } from '@remix-run/react'
+import { useLoaderData, Outlet } from '@remix-run/react'
 import { json, type LoaderFunctionArgs } from '@vercel/remix'
 import { useHydrateAtoms } from 'jotai/utils'
 import * as React from 'react'
 
-export const config = { runtime: 'edge' }
-
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''
+
+  console.log({ cookieHeader })
+
   const accessToken = getCookie('accessToken', cookieHeader)
+
+  console.log({ accessToken })
+
   const serverURL = process.env.SERVER_URL
+
+  console.log({ serverURL })
+
   const profileService = new ProfileService(serverURL)
   const profile = (await profileService.getMe(accessToken))?.data || null
+
+  console.log({ profile })
+
   const { sidebarCookies, headers } = await getSidebarCookies(cookieHeader)
   const { collapsed, layout } = sidebarCookies
 
