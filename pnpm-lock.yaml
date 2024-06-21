@@ -47,6 +47,9 @@ dependencies:
   '@remix-run/serve':
     specifier: ^2.9.2
     version: 2.9.2(typescript@5.4.5)
+  '@remix-run/server-runtime':
+    specifier: ^2.9.2
+    version: 2.9.2(typescript@5.4.5)
   '@tanstack/react-query':
     specifier: ^5.45.0
     version: 5.45.0(react@19.0.0-rc-107a2f8c3e-20240617)
