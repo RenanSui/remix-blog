@@ -1,32 +1,25 @@
 import { Icons } from '@/components/icon'
 import { siteConfig } from '@/config/site'
-import { getSidebarCookies } from '@/cookies.server'
+import { accessTokenCookie, getSidebarCookies } from '@/cookies.server'
 import { ProfileService } from '@/lib/actions/profile'
-import { getCookie } from '@/lib/utils'
 import { Link, Outlet } from '@remix-run/react'
 import { LoaderFunctionArgs, json } from '@vercel/remix'
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''
-
-  console.log({ cookieHeader })
-
-  const accessToken = getCookie('accessToken', cookieHeader)
-
-  console.log({ accessToken })
-
+  const accessToken: string | null = await accessTokenCookie.parse(cookieHeader)
   const serverURL = process.env.SERVER_URL
-
-  console.log({ serverURL })
 
   const profileService = new ProfileService(serverURL)
   const profile = (await profileService.getMe(accessToken))?.data || null
 
-  console.log({ profile })
-
   const { sidebarCookies, headers } = await getSidebarCookies(cookieHeader)
   const { collapsed, layout } = sidebarCookies
 
+  console.log({ cookieHeader })
+  console.log({ accessToken })
+  console.log({ serverURL })
+  console.log({ profile })
   return json(
     { collapsed, layout, profile, accessToken, serverURL, cookieHeader },
     { headers },
