@@ -5,13 +5,23 @@ import {
   PageHeaderHeading,
 } from '@/components/page-header'
 import { Shell } from '@/components/shell'
+import { accessTokenCookie } from '@/cookies.server'
 import { ProfileService } from '@/lib/actions/profile'
-import { getCookie } from '@/lib/utils'
-import { LoaderFunctionArgs, redirect, type MetaFunction } from '@vercel/remix'
+import {
+  redirect,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+} from '@vercel/remix'
+
+export async function action() {
+  return redirect('/', {
+    headers: { 'Set-Cookie': 'accessToken=; max-age=0; path=/' },
+  })
+}
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''
-  const accessToken = getCookie('accessToken', cookieHeader)
+  const accessToken: string | null = await accessTokenCookie.parse(cookieHeader)
 
   const profileService = new ProfileService(process.env.SERVER_URL)
   const profile = (await profileService.getMe(accessToken))?.data || null

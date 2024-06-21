@@ -1,17 +1,13 @@
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useAccessToken } from '@/hooks/use-access-token'
 import { useMounted } from '@/hooks/use-mounted'
-import { useSeverURLAtom } from '@/hooks/use-server-url'
-import { AuthService } from '@/lib/actions/auth'
 import { cn } from '@/lib/utils'
-import { useNavigate } from '@remix-run/react'
+import { useNavigate, useSubmit } from '@remix-run/react'
 
 export function LogOutButtons() {
-  const [, setAccessToken] = useAccessToken()
-  const [serverURL] = useSeverURLAtom()
   const navigate = useNavigate()
   const mounted = useMounted()
+  const submit = useSubmit()
 
   return (
     <div className="flex w-full flex-col-reverse items-center gap-2 sm:flex-row">
@@ -28,12 +24,7 @@ export function LogOutButtons() {
         <Button
           size="sm"
           className="w-full"
-          onClick={() => {
-            const authService = new AuthService(serverURL)
-            authService.signOut()
-            setAccessToken(null)
-            setTimeout(() => navigate('/'), 1000)
-          }}
+          onClick={() => submit({}, { action: '/signout', method: 'POST' })}
         >
           Log out
           <span className="sr-only">Log out</span>
