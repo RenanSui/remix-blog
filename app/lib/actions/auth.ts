@@ -1,9 +1,6 @@
 import type { Auth, HTTPResponse } from '@/types'
-import type { z } from 'zod'
 import type { AuthStatusCode } from '../errors/handle-auth-error'
-import type { authSchema } from '../validations/auth'
-
-type Inputs = z.infer<typeof authSchema>
+import { AuthSchema } from '../validations/auth'
 
 const postFetchConfig = {
   method: 'POST',
@@ -18,7 +15,7 @@ export class AuthService {
     this.serverURL = serverURL
   }
 
-  async signIn(formData: Inputs) {
+  async signIn(formData: AuthSchema) {
     const response = await fetch(`${this.serverURL}/api/auth/login`, {
       ...postFetchConfig,
       body: JSON.stringify({ ...formData }),
@@ -26,7 +23,7 @@ export class AuthService {
     return (await response.json()) as HTTPResponse<Auth, AuthStatusCode>
   }
 
-  async signUp(formData: Inputs) {
+  async signUp(formData: AuthSchema) {
     const response = await fetch(`${this.serverURL}/api/auth/register`, {
       ...postFetchConfig,
       body: JSON.stringify({ ...formData }),
