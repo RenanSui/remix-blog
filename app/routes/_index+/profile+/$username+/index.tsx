@@ -24,8 +24,6 @@ import {
 } from '@vercel/remix'
 import * as React from 'react'
 
-export const config = { runtime: 'edge' }
-
 export async function loader({ params }: LoaderFunctionArgs) {
   const username = params.username || ''
   const profileService = new ProfileService(process.env.SERVER_URL)

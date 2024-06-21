@@ -17,8 +17,6 @@ import {
   type MetaFunction,
 } from '@vercel/remix'
 
-export const config = { runtime: 'edge' }
-
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''
   const accessToken = getCookie('accessToken', cookieHeader)

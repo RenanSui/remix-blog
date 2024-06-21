@@ -9,8 +9,6 @@ import { ProfileService } from '@/lib/actions/profile'
 import { getCookie } from '@/lib/utils'
 import { LoaderFunctionArgs, redirect, type MetaFunction } from '@vercel/remix'
 
-export const config = { runtime: 'edge' }
-
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''
   const accessToken = getCookie('accessToken', cookieHeader)

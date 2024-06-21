@@ -11,8 +11,6 @@ import { Await, Link, useLoaderData } from '@remix-run/react'
 import { defer, redirect, type LoaderFunctionArgs } from '@vercel/remix'
 import * as React from 'react'
 
-export const config = { runtime: 'edge' }
-
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''
   const accessToken = getCookie('accessToken', cookieHeader)
