@@ -2,8 +2,10 @@ import { SettingsSkeleton } from '@/components/loadings/settings-skeleton'
 import { useMounted } from '@/hooks/use-mounted'
 import { ProfileService } from '@/lib/actions/profile'
 import { getCookie } from '@/lib/utils'
-import { LoaderFunctionArgs } from '@remix-run/node'
-import { Outlet, redirect } from '@remix-run/react'
+import { Outlet } from '@remix-run/react'
+import { redirect, type LoaderFunctionArgs } from '@vercel/remix'
+
+export const config = { runtime: 'edge' }
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''

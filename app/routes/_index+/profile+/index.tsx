@@ -1,7 +1,8 @@
 import { ProfileService } from '@/lib/actions/profile'
 import { getCookie } from '@/lib/utils'
-import type { LoaderFunctionArgs } from '@remix-run/node'
-import { redirect } from '@remix-run/node'
+import { redirect, type LoaderFunctionArgs } from '@vercel/remix'
+
+export const config = { runtime: 'edge' }
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''

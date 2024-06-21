@@ -10,8 +10,11 @@ import {
 } from '@/components/ui/card'
 import { ProfileService } from '@/lib/actions/profile'
 import { getCookie } from '@/lib/utils'
-import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
-import { Link, redirect } from '@remix-run/react'
+import { Link } from '@remix-run/react'
+import type { LoaderFunctionArgs, MetaFunction } from '@vercel/remix'
+import { redirect } from '@vercel/remix'
+
+export const config = { runtime: 'edge' }
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''

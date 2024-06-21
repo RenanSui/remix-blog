@@ -8,7 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { usePostAll } from '@/hooks/post'
 import { useMounted } from '@/hooks/use-mounted'
 import { debounce } from '@/lib/utils'
-import { type MetaFunction } from '@remix-run/node'
+import { type MetaFunction } from '@vercel/remix'
 import { useNavigate } from '@remix-run/react'
 import * as React from 'react'
 

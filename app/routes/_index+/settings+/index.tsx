@@ -7,9 +7,11 @@ import { Separator } from '@/components/ui/separator'
 import { useMounted } from '@/hooks/use-mounted'
 import { ProfileService } from '@/lib/actions/profile'
 import { cn, getCookie } from '@/lib/utils'
-import { LoaderFunctionArgs, defer, redirect } from '@remix-run/node'
 import { Await, Link, useLoaderData } from '@remix-run/react'
+import { defer, redirect, type LoaderFunctionArgs } from '@vercel/remix'
 import * as React from 'react'
+
+export const config = { runtime: 'edge' }
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''

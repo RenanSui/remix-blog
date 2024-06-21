@@ -16,9 +16,15 @@ import { usePostByUserId } from '@/hooks/post'
 import { ProfileService } from '@/lib/actions/profile'
 import { debounce } from '@/lib/utils'
 import type { Profile as ProfileType } from '@/types'
-import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
-import { Await, defer, useLoaderData } from '@remix-run/react'
+import { Await, useLoaderData } from '@remix-run/react'
+import {
+  defer,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+} from '@vercel/remix'
 import * as React from 'react'
+
+export const config = { runtime: 'edge' }
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const username = params.username || ''

@@ -9,10 +9,12 @@ import { useMounted } from '@/hooks/use-mounted'
 import { serverURLAtom } from '@/hooks/use-server-url'
 import { ProfileService } from '@/lib/actions/profile'
 import { getCookie } from '@/lib/utils'
-import { json, type LoaderFunctionArgs } from '@remix-run/node'
 import { Outlet, useLoaderData } from '@remix-run/react'
+import { json, type LoaderFunctionArgs } from '@vercel/remix'
 import { useHydrateAtoms } from 'jotai/utils'
 import * as React from 'react'
+
+export const config = { runtime: 'edge' }
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''
