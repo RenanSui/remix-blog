@@ -1,8 +1,8 @@
 import { vitePlugin as remix } from '@remix-run/dev'
+import { vercelPreset } from '@vercel/remix/vite'
 import { flatRoutes } from 'remix-flat-routes'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
-import { vercelPreset } from '@vercel/remix/vite'
 
 export default defineConfig({
   plugins: [
@@ -27,5 +27,8 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  ssr: {
+    noExternal: ['tailwind-merge'],
+  },
   server: { port: 3000 },
 })
