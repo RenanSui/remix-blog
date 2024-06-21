@@ -8,15 +8,43 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { accessTokenCookie } from '@/cookies.server'
+import { AuthService } from '@/lib/actions/auth'
 import { ProfileService } from '@/lib/actions/profile'
-import { getCookie } from '@/lib/utils'
+import { authSchema } from '@/lib/validations/auth'
 import { Link } from '@remix-run/react'
-import type { LoaderFunctionArgs, MetaFunction } from '@vercel/remix'
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from '@vercel/remix'
 import { redirect } from '@vercel/remix'
+
+export async function action({ request }: ActionFunctionArgs) {
+  const formData = await request.formData()
+  const parsed = authSchema.safeParse(formData)
+  const authService = new AuthService(process.env.SERVER_URL)
+
+  if (!parsed.success || !parsed.data) {
+    return redirect('/signin')
+  }
+
+  const { data } = await authService.signIn(parsed.data)
+
+  if (!data?.accessToken) {
+    return redirect('/signin')
+  }
+
+  return redirect('/', {
+    headers: {
+      'Set-Cookie': await accessTokenCookie.serialize(data.accessToken),
+    },
+  })
+}
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''
-  const accessToken = getCookie('accessToken', cookieHeader)
+  const accessToken: string | null = await accessTokenCookie.parse(cookieHeader)
 
   const profileService = new ProfileService(process.env.SERVER_URL)
   const profile = (await profileService.getMe(accessToken))?.data || null

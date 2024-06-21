@@ -8,30 +8,21 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useAccessToken } from '@/hooks/use-access-token'
-import { useSeverURLAtom } from '@/hooks/use-server-url'
-import { AuthService } from '@/lib/actions/auth'
-import { AuthErrorHandler } from '@/lib/errors/handle-auth-error'
 import { getParsedErrors } from '@/lib/errors/utils'
-import { authSchema } from '@/lib/validations/auth'
+import { AuthSchema, authSchema } from '@/lib/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useNavigate } from '@remix-run/react'
+import { useSubmit } from '@remix-run/react'
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import type { z } from 'zod'
 import { Icons } from './icon'
 import { PasswordInput } from './password-input'
 
-type Inputs = z.infer<typeof authSchema>
-
 export default function SignInForm() {
+  const submit = useSubmit()
   const [loading, setLoading] = React.useState(false)
-  const [, setAccessToken] = useAccessToken()
-  const [serverURL] = useSeverURLAtom()
-  const navigate = useNavigate()
 
-  const form = useForm<Inputs>({
+  const form = useForm<AuthSchema>({
     resolver: zodResolver(authSchema),
     defaultValues: {
       email: '',
@@ -39,19 +30,11 @@ export default function SignInForm() {
     },
   })
 
-  async function onSubmit(formData: Inputs) {
-    setLoading(true)
-    const authService = new AuthService(serverURL)
-
+  async function onSubmit(formData: AuthSchema) {
     try {
       const parsed = authSchema.safeParse(formData)
       if (!parsed.success) throw new Error(getParsedErrors(parsed))
-
-      const { status, data } = await authService.signIn({ ...formData })
-      AuthErrorHandler(status)
-
-      setAccessToken(data ? data.accessToken : null)
-      setTimeout(() => navigate('/'), 1000)
+      submit(formData, { action: '/signin', method: 'POST' })
     } catch (err) {
       const error = err as { message: string }
       toast.error(error.message)
@@ -95,7 +78,6 @@ export default function SignInForm() {
           disabled={loading}
         >
           {loading && (
-            // eslint-disable-next-line react/jsx-pascal-case
             <Icons.spinner
               className="mr-2 size-4 animate-spin text-white"
               aria-hidden="true"
