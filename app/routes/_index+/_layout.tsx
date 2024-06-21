@@ -24,10 +24,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const { sidebarCookies, headers } = await getSidebarCookies(cookieHeader)
   const { collapsed, layout } = sidebarCookies
 
-  console.log({ cookieHeader })
-  console.log({ accessToken })
-  console.log({ serverURL })
-  console.log({ profile })
   return json(
     { collapsed, layout, profile, accessToken, serverURL, cookieHeader },
     { headers },
