@@ -1,8 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
-import type { z } from 'zod'
-
 import { PasswordInput } from '@/components/password-input'
 import { Button } from '@/components/ui/button'
 import {
@@ -14,25 +12,17 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useAccessToken } from '@/hooks/use-access-token'
-import { useSeverURLAtom } from '@/hooks/use-server-url'
-import { AuthService } from '@/lib/actions/auth'
-import { AuthErrorHandler } from '@/lib/errors/handle-auth-error'
 import { getParsedErrors } from '@/lib/errors/utils'
-import { authSchema } from '@/lib/validations/auth'
-import { useNavigate } from '@remix-run/react'
+import { authSchema, AuthSchema } from '@/lib/validations/auth'
+import { useSubmit } from '@remix-run/react'
 import { toast } from 'sonner'
 import { Icons } from './icon'
 
-type Inputs = z.infer<typeof authSchema>
-
 export function SignUpForm() {
   const [loading, setLoading] = React.useState(false)
-  const [, setAccessToken] = useAccessToken()
-  const [serverURL] = useSeverURLAtom()
-  const navigate = useNavigate()
+  const submit = useSubmit()
 
-  const form = useForm<Inputs>({
+  const form = useForm<AuthSchema>({
     resolver: zodResolver(authSchema),
     defaultValues: {
       email: '',
@@ -40,19 +30,11 @@ export function SignUpForm() {
     },
   })
 
-  async function onSubmit(formData: Inputs) {
-    setLoading(true)
-    const authService = new AuthService(serverURL)
-
+  async function onSubmit(formData: AuthSchema) {
     try {
       const parsed = authSchema.safeParse(formData)
       if (!parsed.success) throw new Error(getParsedErrors(parsed))
-
-      const { status, data } = await authService.signUp(formData)
-      AuthErrorHandler(status)
-
-      setAccessToken(data ? data.accessToken : null)
-      setTimeout(() => navigate('/'), 1000)
+      submit(formData, { action: '/signup', method: 'POST' })
     } catch (err) {
       const error = err as { message: string }
       toast.error(error.message)
