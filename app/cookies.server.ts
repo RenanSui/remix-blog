@@ -1,5 +1,12 @@
 import { createCookie } from '@vercel/remix' // or cloudflare/deno
 
+export const accessTokenCookie = createCookie('accessToken', {
+  maxAge: 60 * 60 * 24 * 30 * 12, // 360 Days
+  path: '/',
+  httpOnly: true,
+  secure: true,
+})
+
 export const layoutCookie = createCookie('react-resizable-panels:layout', {
   maxAge: 60 * 60 * 24 * 30 * 12, // 360 Days
   path: '/',
