@@ -17,20 +17,20 @@ import * as React from 'react'
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''
 
-  console.log(cookieHeader)
+  console.log({ cookieHeader })
 
   const accessToken = getCookie('accessToken', cookieHeader)
 
-  console.log(accessToken)
+  console.log({ accessToken })
 
   const serverURL = process.env.SERVER_URL
 
-  console.log(serverURL)
+  console.log({ serverURL })
 
   const profileService = new ProfileService(serverURL)
   const profile = (await profileService.getMe(accessToken))?.data || null
 
-  console.log(profile)
+  console.log({ profile })
 
   const { sidebarCookies, headers } = await getSidebarCookies(cookieHeader)
   const { collapsed, layout } = sidebarCookies
@@ -45,7 +45,7 @@ export default function Layout() {
   const data = useLoaderData<typeof loader>()
   const mounted = useMounted()
 
-  console.log(data.profile)
+  console.log({ data })
 
   const defaultLayout = data.layout?.value || [20, 40, 40]
   const defaultCollapsed = data.collapsed?.value || false
