@@ -1,9 +1,13 @@
 import { Icons } from '@/components/icon'
 import { siteConfig } from '@/config/site'
 import { accessTokenCookie, getSidebarCookies } from '@/cookies.server'
+import { useAccessToken, accessTokenAtom } from '@/hooks/use-access-token'
+import { serverURLAtom } from '@/hooks/use-server-url'
 import { ProfileService } from '@/lib/actions/profile'
-import { Link, Outlet } from '@remix-run/react'
+import { Link, Outlet, useLoaderData } from '@remix-run/react'
 import { LoaderFunctionArgs, json } from '@vercel/remix'
+import { useHydrateAtoms } from 'jotai/utils'
+import * as React from 'react'
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie') ?? ''
@@ -27,6 +31,17 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function Layout() {
+  const data = useLoaderData<typeof loader>()
+  const [, setAccessToken] = useAccessToken()
+
+  useHydrateAtoms([[accessTokenAtom, data.accessToken]])
+  useHydrateAtoms([[serverURLAtom, data.serverURL]])
+
+  React.useEffect(() => {
+    const initialLoad = () => setAccessToken(data.accessToken)
+    initialLoad()
+  }, [data.accessToken, setAccessToken])
+
   return (
     <div className="relative grid min-h-screen grid-cols-1 overflow-hidden lg:grid-cols-2">
       <Link
