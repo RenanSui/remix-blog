@@ -1,36 +1,55 @@
-# Welcome to Remix!
+# [Remix-Blog](https://renansui-remix-blog.vercel.app)
 
-- 📖 [Remix docs](https://remix.run/docs)
+Social Media & Microblogging service with interactive UI using React and Remix.
+Bootstrapped with [`create-remix`](https://www.npmjs.com/package/create-remix).
 
-## Development
+[![Spenso](./public/images/landing_page.png)]([https://spenso.vercel.app](https://www.npmjs.com/package/create-remix))
 
-Run the dev server:
+## Tech Stack
 
-```shellscript
-npm run dev
-```
+- **Framework:** [Remix](https://remix.run)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com)
+- **Database:** [Supabase](https://neon.tech)
+- **Form:** [React Hook Form](https://react-hook-form.com)
+- **Toaster:** [React Hook Form](https://sonner.emilkowal.ski)
+- **Component Library:** [Radix UI](https://www.radix-ui.com) + [Shadcn UI](https://ui.shadcn.com)
 
-## Deployment
+## Features
 
-First, build your app for production:
+- Login and Logout.
+- Create, View, Modify and Delete Posts.
+- Edit your Profile.
 
-```sh
-npm run build
-```
+## Running Locally
 
-Then run the app in production mode:
+1. Clone the repository:
 
-```sh
-npm start
-```
+   ```bash
+   git clone https://github.com/RenanSui/remix-blog.git
+   ```
 
-Now you'll need to pick a host to deploy it to.
+2. Install dependencies using pnpm:
 
-### DIY
+   ```bash
+   pnpm install
+   ```
 
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
+3. Copy the `.env.example` to `.env.local` and update the variables.
 
-Make sure to deploy the output of `npm run build`
+   ```bash
+   cp .env.example .env.local
+   ```
 
-- `build/server`
-- `build/client`
+4. Start the development server:
+
+   ```bash
+   pnpm run dev
+   ```
+
+## How do I deploy this?
+
+Follow the deployment guides for [Remix](https://remix.run/docs/en/main/guides/deployment), [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+
+## License
+
+Licensed under the MIT License. Check the [LICENSE](./LICENSE) file for details.
