@@ -9,7 +9,7 @@ Bootstrapped with [`create-remix`](https://www.npmjs.com/package/create-remix).
 
 - **Framework:** [Remix](https://remix.run)
 - **Styling:** [Tailwind CSS](https://tailwindcss.com)
-- **Database:** [Supabase](https://neon.tech)
+- **Database:** [NeonDB](https://neon.tech)
 - **Form:** [React Hook Form](https://react-hook-form.com)
 - **Toaster:** [Sonner](https://sonner.emilkowal.ski)
 - **Component Library:** [Radix UI](https://www.radix-ui.com) + [Shadcn UI](https://ui.shadcn.com)
