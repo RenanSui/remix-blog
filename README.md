@@ -3,7 +3,7 @@
 Social Media & Microblogging service with interactive UI using React and Remix.
 Bootstrapped with [`create-remix`](https://www.npmjs.com/package/create-remix).
 
-[![Spenso](./public/images/landing_page.png)]([https://spenso.vercel.app](https://www.npmjs.com/package/create-remix))
+[![Spenso](./public/images/landing_page.png)](https://www.npmjs.com/package/create-remix)
 
 ## Tech Stack
 
