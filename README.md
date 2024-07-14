@@ -11,7 +11,7 @@ Bootstrapped with [`create-remix`](https://www.npmjs.com/package/create-remix).
 - **Styling:** [Tailwind CSS](https://tailwindcss.com)
 - **Database:** [Supabase](https://neon.tech)
 - **Form:** [React Hook Form](https://react-hook-form.com)
-- **Toaster:** [React Hook Form](https://sonner.emilkowal.ski)
+- **Toaster:** [Toaster](https://sonner.emilkowal.ski)
 - **Component Library:** [Radix UI](https://www.radix-ui.com) + [Shadcn UI](https://ui.shadcn.com)
 
 ## Features
