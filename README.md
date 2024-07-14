@@ -16,9 +16,11 @@ Bootstrapped with [`create-remix`](https://www.npmjs.com/package/create-remix).
 
 ## Features
 
-- Login and Logout.
+- Sign In
+- Sign Up
 - Create, View, Modify and Delete Posts.
-- Edit your Profile.
+- Update Profile
+- Update User Avatar
 
 ## Running Locally
 
